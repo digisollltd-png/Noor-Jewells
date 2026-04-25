@@ -1,0 +1,79 @@
+
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-playfair), serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+:root {
+  --bg-primary: #FFFEFB;
+  --accent-gold: #B8860B;
+  --accent-gold-light: #D4AF37;
+  --text-dark: #1A1A1A;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-dark);
+}
+
+.luxury-serif {
+  font-family: var(--font-serif);
+}
+
+.gold-text {
+  color: var(--accent-gold);
+}
+
+.gold-bg {
+  background-color: var(--accent-gold);
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #E2E8F0;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #CBD5E1;
+}
+
+@keyframes subtle-zoom {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.05);
+  }
+}
+
+.animate-subtle-zoom {
+  animation: subtle-zoom 20s infinite alternate ease-in-out;
+}
+
+/* Custom button hover effect */
+.btn-gold {
+  @apply relative overflow-hidden transition-all duration-300;
+}
+
+.btn-gold::after {
+  content: '';
+  @apply absolute inset-0 bg-white/10 translate-y-full transition-transform duration-300;
+}
+
+.btn-gold:hover::after {
+  @apply translate-y-0;
+}
