@@ -193,13 +193,13 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, onClose, onAddToCa
                     </div>
                   </div>
                   <p className="text-stone-600 text-sm font-light leading-relaxed italic">
-                     "Our pieces are meticulously crafted to mirror the depth of real gold and precious stones. Each jewel is a testament to timeless beauty."
+                     &ldquo;Our pieces are meticulously crafted to mirror the depth of real gold and precious stones. Each jewel is a testament to timeless beauty.&rdquo;
                   </p>
                 </div>
 
                 <div className="space-y-6">
                   <div className="flex items-center justify-between border-b border-stone-100 pb-2">
-                    <h4 className="text-[9px] font-black uppercase tracking-[0.2em] text-stone-400 italic">The Artisan's Note</h4>
+                    <h4 className="text-[9px] font-black uppercase tracking-[0.2em] text-stone-400 italic">The Artisan&apos;s Note</h4>
                     <button 
                       onClick={() => setShowSpecs(true)}
                       className="text-[#B8860B] text-[10px] font-bold uppercase tracking-widest hover:underline flex items-center gap-2 bg-stone-50 px-3 py-1 rounded-full border border-stone-100"

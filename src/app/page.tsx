@@ -231,7 +231,7 @@ export default function Home() {
                 viewport={{ once: true }}
                 className="luxury-serif text-5xl md:text-6xl font-bold text-stone-950 mb-6"
               >
-                The Artisan's <br/><span className="italic font-light text-stone-500">Vault</span>
+                The Artisan&apos;s <br/><span className="italic font-light text-stone-500">Vault</span>
               </motion.h2>
               <p className="text-stone-600 font-light text-lg italic">Explore our meticulously curated selection of imitation jewelry, where every piece is a tribute to royal Indian heritage.</p>
             </div>
