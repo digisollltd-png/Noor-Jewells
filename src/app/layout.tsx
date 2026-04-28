@@ -38,6 +38,9 @@ export const metadata: Metadata = {
   }
 };
 
+import { ShopProvider } from "../context/ShopContext";
+import PageWrapper from "../components/PageWrapper";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -46,7 +49,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} ${playfair.variable} antialiased selection:bg-[#B8860B] selection:text-white`}>
-        {children}
+        <ShopProvider>
+          <PageWrapper>
+            {children}
+          </PageWrapper>
+        </ShopProvider>
       </body>
     </html>
   );

@@ -18,6 +18,7 @@ const ProductList: React.FC<ProductListProps> = ({ products, onAddToCart, onProd
       {products.map((product, idx) => (
         <motion.div 
           key={product.id} 
+          layout
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}

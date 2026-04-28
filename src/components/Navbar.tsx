@@ -10,10 +10,19 @@ interface NavbarProps {
   cartCount: number;
   onCartClick: () => void;
   onSearchClick: () => void;
+  onMenuClick: () => void;
+  onUserClick: () => void;
   isScrolled: boolean;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ cartCount, onCartClick, onSearchClick, isScrolled }) => {
+const Navbar: React.FC<NavbarProps> = ({ 
+  cartCount, 
+  onCartClick, 
+  onSearchClick, 
+  onMenuClick,
+  onUserClick,
+  isScrolled 
+}) => {
   return (
     <motion.nav 
       initial={{ y: -100, opacity: 0 }}
@@ -70,7 +79,10 @@ const Navbar: React.FC<NavbarProps> = ({ cartCount, onCartClick, onSearchClick, 
               >
                 <Search className="w-5 h-5" />
               </button>
-              <button className="p-2 text-stone-900 hover:text-[#B8860B] transition-all duration-300">
+              <button 
+                onClick={onUserClick}
+                className="p-2 text-stone-900 hover:text-[#B8860B] transition-all duration-300"
+              >
                 <User className="w-5 h-5" />
               </button>
             </div>
@@ -87,7 +99,10 @@ const Navbar: React.FC<NavbarProps> = ({ cartCount, onCartClick, onSearchClick, 
               <div className="absolute inset-0 bg-[#B8860B] translate-y-full group-hover:translate-y-0 transition-transform duration-500 opacity-10" />
             </button>
 
-            <button className="lg:hidden p-2 text-stone-900 hover:bg-stone-100 rounded-full transition-all">
+            <button 
+              onClick={onMenuClick}
+              className="lg:hidden p-2 text-stone-900 hover:bg-stone-100 rounded-full transition-all"
+            >
               <Menu className="w-6 h-6" />
             </button>
           </div>

@@ -10,4 +10,5 @@ export interface BlogPost {
   image: string;
   category: string;
   readTime: string;
+  tags?: string[];
 }

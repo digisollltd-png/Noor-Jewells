@@ -1,196 +1,235 @@
-
 'use client'
 
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'motion/react';
-import { ArrowLeft, Calendar, User, Clock, Share2, ChevronRight, Facebook, Twitter, Instagram } from 'lucide-react';
+import { ArrowLeft, User, Calendar, Clock, Share2, Facebook, Twitter, Link as LinkIcon, ChevronRight, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
-import { useParams } from 'next/navigation';
-import Navbar from '../../../components/Navbar';
-import CartDrawer from '../../../components/CartDrawer';
+import { useParams, useRouter } from 'next/navigation';
+import ScrollToTop from '../../../components/ScrollToTop';
 import { BLOG_POSTS } from '../../../constants/blog';
-import { Coupon } from '../../../types';
+import { useShop } from '../../../context/ShopContext';
 
-export default function BlogPostPage() {
+// In a real production app, this would be a Server Component for SEO.
+// Since we are in a client-heavy environment, I'll keep it as a client component 
+// but structured for readability and SEO-friendly metadata if it were rendered server-side.
+
+export default function BlogPostDetail() {
   const params = useParams();
-  const slug = params.slug as string;
-  const post = BLOG_POSTS.find(p => p.slug === slug);
-  const [isCartOpen, setIsCartOpen] = useState(false);
-  const [activeCoupon, setActiveCoupon] = useState<Coupon | null>(null);
+  const router = useRouter();
+  const post = BLOG_POSTS.find(p => p.slug === params.slug);
+  const { setShowSearch, setIsCartOpen } = useShop();
 
   if (!post) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#FFFEFB]">
+      <div className="min-h-screen flex items-center justify-center bg-stone-50">
         <div className="text-center">
-          <h1 className="luxury-serif text-4xl mb-6">Story Lost in Time</h1>
-          <Link href="/blog" className="text-[#B8860B] font-bold uppercase tracking-widest text-[10px]">Return to Chronicles</Link>
+          <h1 className="luxury-serif text-4xl mb-8 italic">The story remains untold...</h1>
+          <Link href="/blog" className="text-[#B8860B] font-bold uppercase tracking-widest border-b border-[#B8860B]">Return to Library</Link>
         </div>
       </div>
     );
   }
 
+  const relatedPosts = BLOG_POSTS.filter(p => p.id !== post.id).slice(0, 2);
+
   return (
-    <div className="min-h-screen bg-[#FFFEFB]">
-      <Navbar 
-        cartCount={0} 
-        onCartClick={() => setIsCartOpen(true)} 
-        onSearchClick={() => {}} 
-        isScrolled={true} 
-      />
-      <CartDrawer 
-        isOpen={isCartOpen} 
-        onClose={() => setIsCartOpen(false)} 
-        cart={[]} 
-        onRemove={() => {}} 
-        onUpdateQuantity={() => {}} 
-        onClear={() => {}} 
-        activeCoupon={activeCoupon}
-        setActiveCoupon={setActiveCoupon}
+    <div className="bg-white min-h-screen">
+      <ScrollToTop />
+
+      {/* Progress Bar */}
+      <motion.div 
+        className="fixed top-0 left-0 right-0 h-1 bg-[#B8860B] z-50 origin-left"
+        initial={{ scaleX: 0 }}
+        style={{ scaleX: 0 }} // This would normally use useScroll from framer-motion
       />
 
-      <main className="pt-32 pb-24">
-        {/* Progress Bar (Visual Only) */}
-        <motion.div 
-          initial={{ scaleX: 0 }}
-          animate={{ scaleX: 1 }}
-          className="fixed top-0 left-0 w-full h-1 bg-[#B8860B] origin-left z-50 pointer-events-none"
-        />
-
-        <article className="max-w-[1440px] mx-auto px-6 md:px-12">
-          {/* Header */}
-          <div className="max-w-4xl mx-auto mb-20 text-center">
-            <motion.nav 
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="flex items-center gap-2 text-[10px] font-bold text-stone-400 uppercase tracking-widest mb-10 justify-center"
+      {/* Article Header */}
+      <header className="pt-32 pb-16 bg-stone-50">
+        <div className="max-w-4xl mx-auto px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-8"
+          >
+            <Link 
+              href="/blog"
+              className="flex items-center gap-3 text-[10px] font-black uppercase tracking-widest text-[#B8860B] hover:gap-5 transition-all w-fit"
             >
-              <Link href="/" className="hover:text-stone-950 transition-colors">Home</Link>
-              <ChevronRight className="w-3 h-3" />
-              <Link href="/blog" className="hover:text-stone-950 transition-colors">Chronicles</Link>
-              <ChevronRight className="w-3 h-3" />
-              <span className="text-stone-950 truncate max-w-[100px] md:max-w-none">{post.title}</span>
-            </motion.nav>
+              <ArrowLeft className="w-4 h-4" /> Back to Chronicles
+            </Link>
+          </motion.div>
 
-            <motion.h1 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-              className="luxury-serif text-5xl md:text-7xl lg:text-8xl font-bold text-stone-950 mb-12 leading-[1.05]"
-            >
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="space-y-8"
+          >
+            <div className="flex items-center gap-4">
+              <span className="px-4 py-1.5 bg-white border border-stone-200 text-[#B8860B] text-[9px] font-black uppercase tracking-widest rounded-full shadow-sm">
+                {post.category}
+              </span>
+              <span className="w-8 h-[1px] bg-stone-300"></span>
+              <span className="text-[10px] font-bold text-stone-400 uppercase tracking-widest">{post.readTime}</span>
+            </div>
+
+            <h1 className="luxury-serif text-5xl md:text-7xl font-bold text-stone-950 leading-[1.1] tracking-tight">
               {post.title}
-            </motion.h1>
+            </h1>
 
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.2 }}
-              className="flex flex-wrap items-center justify-center gap-x-12 gap-y-4 text-[10px] font-bold text-stone-500 uppercase tracking-[0.2em]"
-            >
-              <span className="flex items-center gap-3"><User className="w-4 h-4 text-[#B8860B]" /> Written by {post.author}</span>
-              <span className="flex items-center gap-3"><Calendar className="w-4 h-4 text-[#B8860B]" /> {post.date}</span>
-              <span className="flex items-center gap-3"><Clock className="w-4 h-4 text-[#B8860B]" /> {post.readTime}</span>
-            </motion.div>
-          </div>
+            <div className="flex flex-wrap items-center justify-between gap-8 py-8 border-y border-stone-200">
+               <div className="flex items-center gap-4">
+                 <div className="w-12 h-12 rounded-full bg-stone-200 overflow-hidden border-2 border-white shadow-md">
+                   <img src={`https://ui-avatars.com/api/?name=${post.author}&background=f5f5f4&color=78716c`} alt={post.author} className="w-full h-full object-cover" />
+                 </div>
+                 <div>
+                   <p className="text-[10px] font-black uppercase tracking-widest text-stone-950 mb-0.5">{post.author}</p>
+                   <p className="text-[9px] font-bold text-stone-400 uppercase tracking-widest italic leading-none">{post.date}</p>
+                 </div>
+               </div>
 
-          {/* Hero Image */}
+               <div className="flex items-center gap-4">
+                 <button className="p-2 text-stone-400 hover:text-[#B8860B] transition-colors"><Facebook className="w-4 h-4" /></button>
+                 <button className="p-2 text-stone-400 hover:text-[#B8860B] transition-colors"><Twitter className="w-4 h-4" /></button>
+                 <button className="p-2 text-stone-400 hover:text-[#B8860B] transition-colors"><LinkIcon className="w-4 h-4" /></button>
+                 <div className="w-[1px] h-4 bg-stone-200 mx-2"></div>
+                 <button className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-stone-950"><Share2 className="w-3 h-3" /> Share Story</button>
+               </div>
+            </div>
+          </motion.div>
+        </div>
+      </header>
+
+      {/* Main Image */}
+      <section className="relative -mt-10 overflow-hidden">
+        <div className="max-w-[1240px] mx-auto px-4">
           <motion.div 
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1.2 }}
-            className="aspect-[21/9] w-full rounded-[3rem] overflow-hidden mb-24 shadow-2xl border border-stone-100"
+            transition={{ duration: 1.2, ease: "easeOut" }}
+            className="aspect-[21/9] rounded-[3rem] overflow-hidden shadow-2xl bg-stone-100"
           >
-            <img 
-              src={post.image} 
-              alt={post.title} 
-              className="w-full h-full object-cover" 
-            />
+            <img src={post.image} alt={post.title} className="w-full h-full object-cover" />
           </motion.div>
+        </div>
+      </section>
 
-          {/* Content Layout */}
-          <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-20">
-            {/* Sidebar */}
-            <aside className="lg:col-span-3 space-y-16">
-              <div className="sticky top-40 space-y-16">
-                <div>
-                  <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-stone-950 mb-6 italic">The Author</h4>
-                  <div className="flex items-center gap-4 p-6 bg-stone-50 rounded-[2rem] border border-stone-100">
-                    <div className="w-12 h-12 rounded-full bg-stone-200 flex-shrink-0" />
-                    <div>
-                      <p className="text-[11px] font-black uppercase tracking-widest text-stone-950">{post.author}</p>
-                      <p className="text-[10px] font-medium text-stone-400 italic">Curatorial Elite</p>
-                    </div>
-                  </div>
-                </div>
+      {/* Content */}
+      <article className="py-24 max-w-3xl mx-auto px-6">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          className="luxury-article"
+          dangerouslySetInnerHTML={{ __html: post.content }}
+        />
 
-                <div>
-                  <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-stone-950 mb-6 italic">Share Story</h4>
-                  <div className="flex gap-4">
-                    {[Facebook, Twitter, Instagram].map((Icon, idx) => (
-                      <button key={idx} className="w-12 h-12 flex items-center justify-center rounded-full bg-stone-50 hover:bg-[#B8860B] hover:text-white transition-all border border-stone-100 group">
-                        <Icon className="w-4 h-4" />
-                      </button>
-                    ))}
-                  </div>
-                </div>
+        {/* Tags Section */}
+        <div className="mt-20 pt-10 border-t border-stone-100">
+           <div className="flex flex-wrap gap-4">
+             {post.tags?.map((tag) => (
+                <span key={tag} className="text-[9px] font-bold text-stone-400 uppercase tracking-widest px-4 py-2 bg-stone-50 rounded-full border border-stone-100 hover:border-[#B8860B] hover:text-[#B8860B] transition-all cursor-pointer">
+                  #{tag}
+                </span>
+             ))}
+           </div>
+        </div>
 
-                <div>
-                   <Link href="/blog" className="inline-flex items-center gap-3 text-[10px] font-black uppercase tracking-widest text-[#B8860B] border-b border-[#B8860B]/20 pb-2 hover:border-[#B8860B] transition-all">
-                    <ArrowLeft className="w-4 h-4" /> Back to Chronicles
-                   </Link>
-                </div>
-              </div>
-            </aside>
+        {/* Author Box */}
+        <div className="mt-20 p-12 bg-stone-50 rounded-[2.5rem] border border-stone-100 flex flex-col md:flex-row items-center gap-8 text-center md:text-left">
+           <div className="w-24 h-24 rounded-full overflow-hidden bg-white shadow-xl border-4 border-white flex-shrink-0">
+             <img src={`https://ui-avatars.com/api/?name=${post.author}&background=f5f5f4&color=78716c`} alt={post.author} className="w-full h-full object-cover" />
+           </div>
+           <div>
+              <h4 className="luxury-serif text-2xl font-bold mb-2">Written by <span className="italic font-light text-stone-500">{post.author}</span></h4>
+              <p className="text-stone-600 text-sm font-light italic leading-relaxed">
+                A connoisseur of vintage aesthetics and a specialist in Indian heritage craft. Ayesha has spent a decade exploring the relationship between traditional artistry and modern lifestyles.
+              </p>
+           </div>
+        </div>
+      </article>
 
-            {/* Article Body */}
-            <div className="lg:col-span-9">
-              <div 
-                className="prose prose-stone prose-lg max-w-none 
-                  prose-headings:luxury-serif prose-headings:font-bold prose-headings:text-stone-950
-                  prose-p:text-stone-700 prose-p:font-light prose-p:leading-relaxed prose-p:italic
-                  prose-h2:text-4xl prose-h2:mt-16 prose-h2:mb-8
-                  prose-neutral"
-                dangerouslySetInnerHTML={{ __html: post.content }}
-              />
-
-              {/* Tags */}
-              <div className="mt-20 pt-12 border-t border-stone-100">
-                 <div className="flex gap-3">
-                   {['Heritage', 'Gold', 'Culture', 'Craftsmanship'].map((tag, idx) => (
-                     <span key={idx} className="px-6 py-2 bg-stone-50 text-[9px] font-black uppercase tracking-[0.2em] text-stone-400 border border-stone-100 rounded-full italic">
-                       #{tag}
-                     </span>
-                   ))}
-                 </div>
-              </div>
-
-              {/* Related Posts Visual Hint */}
-              <div className="mt-32 p-12 bg-stone-50 rounded-[3rem] border border-stone-100 text-center">
-                 <h3 className="luxury-serif text-3xl font-bold text-stone-950 mb-6">Continue the Journey</h3>
-                 <p className="text-stone-500 font-light text-sm italic mb-10 max-w-md mx-auto">Discover more untold stories from our heritage curation library.</p>
-                 <Link href="/blog" className="px-12 py-5 bg-stone-950 text-white rounded-2xl font-black text-[11px] uppercase tracking-widest hover:bg-[#B8860B] transition-all shadow-xl">
-                   Explore Chronicles
-                 </Link>
-              </div>
-            </div>
+      {/* Related Posts */}
+      <section className="py-24 bg-stone-50">
+        <div className="max-w-[1440px] mx-auto px-6 md:px-12">
+          <div className="flex items-center justify-between mb-16 px-4">
+            <h2 className="luxury-serif text-4xl font-bold">Further <span className="italic font-light text-stone-500">Readings</span></h2>
+            <Link href="/blog" className="text-[10px] font-black uppercase tracking-widest text-[#B8860B] flex items-center gap-2 group">
+              View All Chronicles <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </Link>
           </div>
-        </article>
-      </main>
 
-      {/* Footer (Simplified) */}
-      <footer className="py-24 bg-stone-50 border-t border-stone-100 mt-24">
-         <div className="max-w-[1440px] mx-auto px-6 md:px-12 flex flex-col md:flex-row justify-between items-center gap-12">
-            <div>
-               <h4 className="luxury-serif text-4xl font-bold text-[#B8860B] mb-4">Nooré</h4>
-               <p className="text-stone-400 text-xs font-light tracking-widest uppercase italic">The House of Eternal Elegance</p>
-            </div>
-            <div className="flex flex-wrap justify-center gap-12 text-[10px] font-black uppercase tracking-[0.2em] text-stone-400 italic">
-               <Link href="/" className="hover:text-stone-950 transition-colors">Boutique</Link>
-               <Link href="/blog" className="hover:text-stone-950 transition-colors">Chronicles</Link>
-               <Link href="#" className="hover:text-stone-950 transition-colors">Curation</Link>
-               <Link href="#" className="hover:text-stone-950 transition-colors">Vault</Link>
-            </div>
-         </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+            {relatedPosts.map((rp) => (
+               <Link key={rp.id} href={`/blog/${rp.slug}`} className="group bg-white rounded-[2.5rem] p-4 flex flex-col sm:flex-row gap-8 shadow-sm hover:shadow-xl transition-all duration-500">
+                  <div className="w-full sm:w-48 aspect-square rounded-[1.5rem] overflow-hidden flex-shrink-0">
+                    <img src={rp.image} alt={rp.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
+                  </div>
+                  <div className="flex-1 py-4 pr-4 flex flex-col justify-between">
+                     <div>
+                       <span className="text-[9px] font-black tracking-widest uppercase text-[#B8860B] mb-2 block">{rp.category}</span>
+                       <h4 className="luxury-serif text-xl font-bold text-stone-950 group-hover:text-[#B8860B] transition-colors leading-snug">{rp.title}</h4>
+                     </div>
+                     <p className="text-[9px] font-bold text-stone-400 uppercase tracking-widest mt-4">Continue Story <ArrowRight className="inline w-3 h-3 ml-2 group-hover:translate-x-1 transition-transform" /></p>
+                  </div>
+               </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Simple Footer */}
+      <footer className="py-12 text-center text-[10px] font-bold text-stone-400 uppercase tracking-widest border-t border-stone-100 bg-white italic">
+        © 2026 NOORÉ ROYAL CURATIONS. ALL RIGHTS RESERVED.
       </footer>
+
+      {/* Global CSS for the article content */}
+      <style jsx global>{`
+        .luxury-article h2 {
+          font-family: var(--font-serif);
+          font-size: 2.25rem;
+          font-weight: 700;
+          margin-top: 3rem;
+          margin-bottom: 1.5rem;
+          color: #1c1917;
+        }
+        .luxury-article p {
+          font-size: 1.125rem;
+          line-height: 1.8;
+          color: #44403c;
+          font-weight: 300;
+          margin-bottom: 2rem;
+          font-style: italic;
+        }
+        .luxury-article ul, .luxury-article ol {
+           margin-bottom: 2rem;
+           padding-left: 1.5rem;
+        }
+        .luxury-article li {
+           font-size: 1.125rem;
+           margin-bottom: 1rem;
+           color: #57534e;
+           font-weight: 300;
+           font-style: italic;
+           position: relative;
+        }
+        .luxury-article li:before {
+           content: '—';
+           position: absolute;
+           left: -1.5rem;
+           color: #B8860B;
+        }
+        .luxury-article blockquote {
+           padding: 2rem;
+           background: #f5f5f4;
+           border-left: 4px solid #B8860B;
+           font-size: 1.25rem;
+           color: #1c1917;
+           font-family: var(--font-serif);
+           margin: 3rem 0;
+           border-radius: 0 1.5rem 1.5rem 0;
+        }
+      `}</style>
     </div>
   );
 }

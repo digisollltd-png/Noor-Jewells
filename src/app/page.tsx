@@ -3,28 +3,34 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { ArrowRight, Search, X, Sparkles, Gem, Star, ShieldCheck } from 'lucide-react';
+import { ArrowRight, Search, X, Sparkles, Gem, Star, ShieldCheck, SlidersHorizontal, ChevronDown } from 'lucide-react';
 import Link from 'next/link';
 import { Product, CartItem, Coupon } from '../types';
-import Navbar from '../components/Navbar';
 import ProductList from '../components/ProductList';
-import CartDrawer from '../components/CartDrawer';
 import ProductModal from '../components/ProductModal';
 import InstagramFeed from '../components/InstagramFeed';
 import BlogSection from '../components/BlogSection';
 import ScrollToTop from '../components/ScrollToTop';
 import { PRODUCTS } from '../constants';
 
+import { useShop } from '../context/ShopContext';
+
 export default function Home() {
-  const [cart, setCart] = useState<CartItem[]>([]);
-  const [isCartOpen, setIsCartOpen] = useState(false);
-  const [activeCoupon, setActiveCoupon] = useState<Coupon | null>(null);
-  const [isScrolled, setIsScrolled] = useState(false);
+  const { 
+    addToCart, 
+    searchQuery,
+    setSearchQuery,
+  } = useShop();
+
   const [activeCategory, setActiveCategory] = useState('All');
-  const [searchQuery, setSearchQuery] = useState('');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const [showSearch, setShowSearch] = useState(false);
   const [heroIndex, setHeroIndex] = useState(0);
+  
+  // New States for Filter/Sort
+  const maxPriceLimit = useMemo(() => Math.ceil(Math.max(...PRODUCTS.map(p => p.price))), []);
+  const [priceRange, setPriceRange] = useState(maxPriceLimit);
+  const [sortBy, setSortBy] = useState('newest');
+  const [showFilters, setShowFilters] = useState(false);
 
   const heroProducts = useMemo(() => PRODUCTS.slice(0, 4), []);
 
@@ -35,86 +41,37 @@ export default function Home() {
     return () => clearInterval(timer);
   }, [heroProducts.length]);
 
-  useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 50);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
   const filteredProducts = useMemo(() => {
-    return PRODUCTS.filter(p => {
+    let result = PRODUCTS.filter(p => {
       const matchesCategory = activeCategory === 'All' || p.category === activeCategory;
       const matchesSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
                            p.description.toLowerCase().includes(searchQuery.toLowerCase());
-      return matchesCategory && matchesSearch;
+      const matchesPrice = p.price <= priceRange;
+      return matchesCategory && matchesSearch && matchesPrice;
     });
-  }, [activeCategory, searchQuery]);
+
+    if (sortBy === 'price-low') {
+      result.sort((a, b) => a.price - b.price);
+    } else if (sortBy === 'price-high') {
+      result.sort((a, b) => b.price - a.price);
+    } else if (sortBy === 'newest') {
+      result.sort((a, b) => b.id - a.id);
+    } else if (sortBy === 'name') {
+      result.sort((a, b) => a.name.localeCompare(b.name));
+    }
+
+    return result;
+  }, [activeCategory, searchQuery, priceRange, sortBy]);
 
   const categories = useMemo(() => ['All', ...Array.from(new Set(PRODUCTS.map(p => p.category)))], []);
 
-  const addToCart = (product: Product) => {
-    setCart(prev => {
-      const existing = prev.find(item => item.id === product.id);
-      if (existing) {
-        return prev.map(item => item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item);
-      }
-      return [...prev, { ...product, quantity: 1 }];
-    });
-    setIsCartOpen(true);
+  const handleAddToCart = (product: Product) => {
+    addToCart(product);
     setSelectedProduct(null);
   };
 
-  const removeFromCart = (id: number) => {
-    setCart(prev => prev.filter(item => item.id !== id));
-  };
-
-  const updateQuantity = (id: number, delta: number) => {
-    setCart(prev => prev.map(item => {
-      if (item.id === id) {
-        const newQty = Math.max(1, item.quantity + delta);
-        return { ...item, quantity: newQty };
-      }
-      return item;
-    }));
-  };
-
-  const clearCart = () => setCart([]);
-
   return (
     <div className="min-h-screen bg-[#FFFEFB]">
-      <Navbar 
-        cartCount={cart.reduce((acc, item) => acc + item.quantity, 0)} 
-        onCartClick={() => setIsCartOpen(true)} 
-        onSearchClick={() => setShowSearch(true)}
-        isScrolled={isScrolled}
-      />
-      
-      <AnimatePresence>
-        {showSearch && (
-          <motion.div 
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="fixed inset-x-0 top-0 z-[100] bg-white p-8 shadow-2xl border-b border-stone-100"
-          >
-            <div className="max-w-4xl mx-auto flex items-center gap-6">
-              <Search className="w-8 h-8 text-[#B8860B]" />
-              <input 
-                autoFocus
-                type="text" 
-                placeholder="Search for your next heirloom..." 
-                className="flex-1 text-3xl font-light focus:outline-none placeholder:text-stone-400 italic luxury-serif"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-              <button onClick={() => setShowSearch(false)} className="p-3 hover:bg-stone-50 rounded-full transition-colors border border-stone-100">
-                <X className="w-6 h-6 text-stone-400" />
-              </button>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
       <main className="pt-24 pb-24">
         {/* Luxury Jewelry Hero */}
         <div className="max-w-[1440px] mx-auto px-4 md:px-6 mb-8">
@@ -223,44 +180,130 @@ export default function Home() {
 
         {/* Product Catalog */}
         <div id="catalog" className="max-w-[1440px] mx-auto px-4 sm:px-6 mb-20 scroll-mt-32">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-8 gap-8">
-            <div className="max-w-xl">
-              <motion.h2 
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                className="luxury-serif text-5xl md:text-6xl font-bold text-stone-950 mb-6"
-              >
-                The Artisan&apos;s <br/><span className="italic font-light text-stone-500">Vault</span>
-              </motion.h2>
-              <p className="text-stone-600 font-light text-lg italic">Explore our meticulously curated selection of imitation jewelry, where every piece is a tribute to royal Indian heritage.</p>
-            </div>
-            
-            <div className="flex flex-wrap gap-4 bg-stone-50 p-2 rounded-3xl border border-stone-100 shadow-sm">
-              {categories.map((cat) => (
-                <button
-                  key={cat}
-                  onClick={() => {
-                    setActiveCategory(cat);
-                    document.getElementById('catalog')?.scrollIntoView({ behavior: 'smooth' });
-                  }}
-                  className={`px-8 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all ${
-                    activeCategory === cat 
-                      ? 'bg-stone-950 text-white shadow-xl' 
-                      : 'text-stone-600 hover:text-stone-950'
+          <div className="flex flex-col mb-16">
+            <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-8">
+              <div className="max-w-xl">
+                <motion.h2 
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  className="luxury-serif text-5xl md:text-6xl font-bold text-stone-950 mb-6"
+                >
+                  The Artisan&apos;s <br/><span className="italic font-light text-stone-500">Vault</span>
+                </motion.h2>
+                <p className="text-stone-600 font-light text-lg italic">Explore our meticulously curated selection of imitation jewelry, where every piece is a tribute to royal Indian heritage.</p>
+              </div>
+
+              <div className="flex items-center gap-4">
+                <button 
+                  onClick={() => setShowFilters(!showFilters)}
+                  className={`flex items-center gap-3 px-6 py-4 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all border ${
+                    showFilters ? 'bg-stone-950 text-white border-stone-950 shadow-xl' : 'bg-white text-stone-950 border-stone-200 hover:border-stone-950'
                   }`}
                 >
-                  {cat}
+                  <SlidersHorizontal className="w-4 h-4" />
+                  {showFilters ? 'Hide Filters' : 'Filter & Sort'}
                 </button>
-              ))}
+              </div>
             </div>
+
+            <AnimatePresence>
+              {showFilters && (
+                <motion.div 
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
+                  className="overflow-hidden mb-12"
+                >
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-8 p-8 bg-stone-50 rounded-[2.5rem] border border-stone-100 shadow-inner">
+                    {/* Category Selection */}
+                    <div className="space-y-4">
+                      <h4 className="text-[10px] font-black uppercase tracking-widest text-stone-400 italic">By Collection</h4>
+                      <div className="flex flex-wrap gap-2">
+                        {categories.map((cat) => (
+                          <button
+                            key={cat}
+                            onClick={() => setActiveCategory(cat)}
+                            className={`px-5 py-2.5 rounded-xl text-[9px] font-bold uppercase tracking-widest transition-all ${
+                              activeCategory === cat 
+                                ? 'bg-[#B8860B] text-white shadow-lg' 
+                                : 'bg-white text-stone-600 border border-stone-100 hover:border-[#B8860B]'
+                            }`}
+                          >
+                            {cat}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Price Range Slider */}
+                    <div className="space-y-6">
+                      <div className="flex justify-between items-center">
+                        <h4 className="text-[10px] font-black uppercase tracking-widest text-stone-400 italic">Price Ceiling</h4>
+                        <span className="text-sm font-bold text-[#B8860B]">${priceRange}</span>
+                      </div>
+                      <div className="relative pt-2">
+                        <input 
+                          type="range" 
+                          min="0" 
+                          max={maxPriceLimit} 
+                          value={priceRange}
+                          onChange={(e) => setPriceRange(Number(e.target.value))}
+                          className="w-full h-1.5 bg-stone-200 rounded-lg appearance-none cursor-pointer accent-[#B8860B]"
+                        />
+                        <div className="flex justify-between mt-4 text-[9px] font-bold text-stone-400 uppercase tracking-tighter">
+                          <span>$0</span>
+                          <span>Maximum: ${maxPriceLimit}</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Sort By Dropdown */}
+                    <div className="space-y-4">
+                      <h4 className="text-[10px] font-black uppercase tracking-widest text-stone-400 italic">Arrange By</h4>
+                      <div className="relative group">
+                        <select 
+                          value={sortBy}
+                          onChange={(e) => setSortBy(e.target.value)}
+                          className="w-full appearance-none bg-white border border-stone-100 rounded-xl px-6 py-4 text-xs font-bold text-stone-900 focus:outline-none focus:ring-2 focus:ring-[#B8860B]/20 cursor-pointer pr-12"
+                        >
+                          <option value="newest">Newest Arrivals</option>
+                          <option value="price-low">Price: Low to High</option>
+                          <option value="price-high">Price: High to Low</option>
+                          <option value="name">Alphabetical (A-Z)</option>
+                        </select>
+                        <ChevronDown className="absolute right-6 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400 pointer-events-none group-hover:text-[#B8860B] transition-colors" />
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+            
+            {!showFilters && (
+              <div className="flex flex-wrap gap-3 mb-8">
+                 {categories.map((cat) => (
+                    <button
+                      key={cat}
+                      onClick={() => setActiveCategory(cat)}
+                      className={`px-6 py-2.5 rounded-full text-[9px] font-bold uppercase tracking-widest transition-all ${
+                        activeCategory === cat 
+                          ? 'bg-stone-950 text-white shadow-md' 
+                          : 'bg-stone-100 text-stone-500 hover:bg-stone-200'
+                      }`}
+                    >
+                      {cat}
+                    </button>
+                  ))}
+              </div>
+            )}
           </div>
 
           {filteredProducts.length === 0 ? (
             <div className="py-24 text-center">
               <h3 className="luxury-serif text-3xl text-stone-400 mb-4 italic">No treasures matched your quest</h3>
               <button 
-                onClick={() => { setSearchQuery(''); setActiveCategory('All'); }}
+                onClick={() => { setSearchQuery(''); setActiveCategory('All'); setPriceRange(maxPriceLimit); setSortBy('newest'); }}
                 className="text-[#B8860B] font-bold uppercase tracking-widest border-b border-[#B8860B] pb-1"
               >
                 Reset Selection
@@ -269,7 +312,7 @@ export default function Home() {
           ) : (
             <ProductList 
               products={filteredProducts} 
-              onAddToCart={addToCart}
+              onAddToCart={handleAddToCart}
               onProductClick={(p) => setSelectedProduct(p)}
             />
           )}
@@ -394,23 +437,12 @@ export default function Home() {
         </div>
       </footer>
 
-      <CartDrawer 
-        isOpen={isCartOpen} 
-        onClose={() => setIsCartOpen(false)}
-        cart={cart}
-        onUpdateQuantity={updateQuantity}
-        onRemove={removeFromCart}
-        onClear={clearCart}
-        activeCoupon={activeCoupon}
-        setActiveCoupon={setActiveCoupon}
-      />
-
       <AnimatePresence>
         {selectedProduct && (
           <ProductModal 
             product={selectedProduct} 
             onClose={() => setSelectedProduct(null)}
-            onAddToCart={addToCart}
+            onAddToCart={handleAddToCart}
           />
         )}
       </AnimatePresence>
