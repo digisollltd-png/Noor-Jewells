@@ -117,12 +117,12 @@ export default function Home() {
 
       <main className="pt-24 pb-24">
         {/* Luxury Jewelry Hero */}
-        <div className="max-w-[1440px] mx-auto px-6 mb-8">
+        <div className="max-w-[1440px] mx-auto px-4 md:px-6 mb-8">
           <motion.section 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1.5 }}
-            className="relative h-[85vh] min-h-[700px] overflow-hidden rounded-[4rem] bg-stone-950 shadow-2xl"
+            className="relative h-[70vh] md:h-[85vh] min-h-[500px] md:min-h-[700px] overflow-hidden rounded-2xl md:rounded-[4rem] bg-stone-950 shadow-2xl"
           >
             {/* Split Hero Layout with Slideshow */}
             <AnimatePresence mode="wait">
@@ -151,9 +151,9 @@ export default function Home() {
               </motion.div>
             </AnimatePresence>
 
-            <div className="absolute inset-0 bg-gradient-to-r from-stone-950 via-stone-950/50 to-transparent z-10" />
+            <div className="absolute inset-0 bg-gradient-to-r from-stone-950 via-stone-950/60 to-transparent z-10" />
 
-            <div className="relative z-20 h-full flex items-center px-12 md:px-24 xl:px-32">
+            <div className="relative z-20 h-full flex items-center px-6 md:px-24 xl:px-32">
               <div className="max-w-2xl">
                 <AnimatePresence mode="wait">
                   <motion.div
@@ -163,17 +163,17 @@ export default function Home() {
                     exit={{ opacity: 0, x: 20 }}
                     transition={{ duration: 0.8 }}
                   >
-                    <div className="flex items-center gap-4 mb-8">
-                      <span className="w-16 h-[2px] bg-[#B8860B]"></span>
-                      <span className="text-[#B8860B] font-bold uppercase tracking-[0.5em] text-[10px] italic">ESTD 1992 | {heroProducts[heroIndex].category} Collection</span>
+                    <div className="flex items-center gap-4 mb-6 md:mb-8">
+                      <span className="w-12 md:w-16 h-[2px] bg-[#B8860B]"></span>
+                      <span className="text-[#B8860B] font-bold uppercase tracking-[0.3em] md:tracking-[0.5em] text-[9px] md:text-[10px] italic transition-all uppercase">ESTD 1992 | {heroProducts[heroIndex].category}</span>
                     </div>
                     
-                    <h1 className="luxury-serif text-6xl md:text-8xl font-bold text-white mb-10 tracking-tight leading-[0.95]">
+                    <h1 className="luxury-serif text-4xl md:text-8xl font-bold text-white mb-6 md:mb-10 tracking-tight leading-[1.1] md:leading-[0.95]">
                       {heroProducts[heroIndex].name.split(' ').slice(0, -1).join(' ')} <br/>
                       <span className="italic font-light text-stone-400">{heroProducts[heroIndex].name.split(' ').slice(-1)}</span>
                     </h1>
 
-                    <p className="text-stone-400 text-lg md:text-xl mb-14 font-light leading-relaxed max-w-lg italic">
+                    <p className="text-stone-300 md:text-stone-400 text-base md:text-xl mb-8 md:mb-14 font-light leading-relaxed max-w-sm md:max-w-lg italic">
                       {heroProducts[heroIndex].description}
                     </p>
                   </motion.div>
@@ -183,18 +183,18 @@ export default function Home() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.5, duration: 1 }}
-                  className="flex flex-wrap gap-8"
+                  className="flex flex-col sm:flex-row gap-4 md:gap-8"
                 >
                   <button 
                     onClick={() => document.getElementById('catalog')?.scrollIntoView({ behavior: 'smooth' })}
-                    className="group relative px-12 py-5 bg-[#B8860B] text-white rounded-full font-black text-xs uppercase tracking-[0.3em] transition-all hover:scale-105 hover:shadow-[0_20px_50px_rgba(184,134,11,0.3)] flex items-center gap-4 overflow-hidden"
+                    className="group relative px-8 md:px-12 py-4 md:py-5 bg-[#B8860B] text-white rounded-full font-black text-[10px] md:text-xs uppercase tracking-[0.2em] md:tracking-[0.3em] transition-all hover:scale-105 hover:shadow-[0_20px_50px_rgba(184,134,11,0.3)] flex items-center justify-center gap-3 md:gap-4 overflow-hidden"
                   >
                     <span className="relative z-10">Discover Collection</span>
-                    <ArrowRight className="w-5 h-5 relative z-10 group-hover:translate-x-1 transition-transform" />
+                    <ArrowRight className="w-4 h-4 md:w-5 md:h-5 relative z-10 group-hover:translate-x-1 transition-transform" />
                     <div className="absolute inset-0 bg-white group-hover:translate-y-0 translate-y-full transition-transform duration-500 opacity-10" />
                   </button>
                   
-                  <button className="px-12 py-5 border border-white/20 text-white rounded-full font-bold text-xs uppercase tracking-[0.3em] hover:bg-white hover:text-stone-950 transition-all">
+                  <button className="px-8 md:px-12 py-4 md:py-5 border border-white/20 text-white rounded-full font-bold text-[10px] md:text-xs uppercase tracking-[0.2em] md:tracking-[0.3em] hover:bg-white hover:text-stone-950 transition-all text-center">
                     Virtual Styling
                   </button>
                 </motion.div>
