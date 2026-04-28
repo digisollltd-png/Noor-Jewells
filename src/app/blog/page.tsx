@@ -4,6 +4,7 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { ArrowRight, Calendar, Clock, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 import ScrollToTop from '../../components/ScrollToTop';
 import { BLOG_POSTS } from '../../constants/blog';
 import { useShop } from '../../context/ShopContext';
@@ -56,10 +57,13 @@ export default function BlogListingPage() {
                 viewport={{ once: true }}
                 className="relative aspect-[16/10] md:aspect-square overflow-hidden rounded-[3rem] bg-stone-100 shadow-2xl"
               >
-                <img 
+                <Image 
                   src={BLOG_POSTS[0].image} 
                   alt={BLOG_POSTS[0].title} 
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[3s] ease-out"
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-[3s] ease-out"
+                  referrerPolicy="no-referrer"
+                  priority
                 />
                 <div className="absolute top-8 left-8">
                   <span className="px-6 py-2 bg-stone-950/90 backdrop-blur-md text-white text-[10px] font-black uppercase tracking-widest rounded-full">
@@ -107,10 +111,12 @@ export default function BlogListingPage() {
               >
                 <Link href={`/blog/${post.slug}`}>
                   <div className="relative aspect-[4/5] mb-8 overflow-hidden rounded-3xl bg-stone-50 border border-stone-100 shadow-lg group-hover:shadow-2xl transition-all duration-500">
-                    <img 
+                    <Image 
                       src={post.image} 
                       alt={post.title} 
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[2s] ease-out"
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-[2s] ease-out"
+                      referrerPolicy="no-referrer"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-stone-950/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                   </div>

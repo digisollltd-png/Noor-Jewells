@@ -5,6 +5,7 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { ArrowRight, Calendar, User, Clock } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { BLOG_POSTS } from '../constants/blog';
 
 export default function BlogSection() {
@@ -51,10 +52,12 @@ export default function BlogSection() {
             >
               <Link href={`/blog/${post.slug}`}>
                 <div className="relative aspect-[16/10] mb-8 overflow-hidden rounded-3xl bg-stone-50 border border-stone-100">
-                  <img 
+                  <Image 
                     src={post.image} 
                     alt={post.title} 
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[2s] ease-out"
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-[2s] ease-out"
+                    referrerPolicy="no-referrer"
                   />
                   <div className="absolute top-6 left-6">
                     <span className="px-4 py-1.5 bg-white/90 backdrop-blur-md text-[#B8860B] text-[9px] font-black uppercase tracking-widest rounded-full shadow-sm border border-[#B8860B]/10">

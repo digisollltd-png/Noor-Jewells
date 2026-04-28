@@ -4,6 +4,7 @@
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, Plus, ShieldCheck, Truck, Star, Ruler, Search, Sparkles, Gem, Eye } from 'lucide-react';
+import Image from 'next/image';
 import { Product } from '../types';
 
 interface ProductModalProps {
@@ -77,18 +78,27 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, onClose, onAddToCa
             onMouseLeave={() => setShowMagnifier(false)}
             className="flex-1 relative overflow-hidden group"
           >
-            <AnimatePresence mode="wait">
-              <motion.img 
-                key={activeImage}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.5 }}
-                src={activeImage} 
-                alt={product.name} 
-                className="w-full h-full object-cover select-none pointer-events-none opacity-90 group-hover:opacity-100"
-              />
-            </AnimatePresence>
+            <div className="w-full h-full relative">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeImage}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.5 }}
+                  className="w-full h-full"
+                >
+                  <Image 
+                    src={activeImage} 
+                    alt={product.name} 
+                    fill
+                    className="object-cover select-none pointer-events-none opacity-90 group-hover:opacity-100"
+                    referrerPolicy="no-referrer"
+                    priority
+                  />
+                </motion.div>
+              </AnimatePresence>
+            </div>
 
             <AnimatePresence>
               {showMagnifier && (
@@ -140,9 +150,9 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, onClose, onAddToCa
               <button 
                 key={i} 
                 onClick={() => setActiveImage(img)}
-                className={`w-16 h-16 rounded-xl overflow-hidden border-2 transition-all duration-300 ${activeImage === img ? 'border-[#B8860B] scale-110 shadow-lg' : 'border-transparent opacity-60 hover:opacity-100'}`}
+                className={`w-16 h-16 rounded-xl overflow-hidden border-2 transition-all duration-300 relative ${activeImage === img ? 'border-[#B8860B] scale-110 shadow-lg' : 'border-transparent opacity-60 hover:opacity-100'}`}
               >
-                <img src={img} className="w-full h-full object-cover" alt={`View ${i + 1}`} />
+                <Image src={img} fill className="object-cover" alt={`View ${i + 1}`} referrerPolicy="no-referrer" />
               </button>
             ))}
           </div>

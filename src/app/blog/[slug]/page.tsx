@@ -1,9 +1,10 @@
 'use client'
 
 import React from 'react';
-import { motion } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
 import { ArrowLeft, User, Calendar, Clock, Share2, Facebook, Twitter, Link as LinkIcon, ChevronRight, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
 import ScrollToTop from '../../../components/ScrollToTop';
 import { BLOG_POSTS } from '../../../constants/blog';
@@ -18,6 +19,23 @@ export default function BlogPostDetail() {
   const router = useRouter();
   const post = BLOG_POSTS.find(p => p.slug === params.slug);
   const { setShowSearch, setIsCartOpen } = useShop();
+  const [copied, setCopied] = React.useState(false);
+
+  const shareUrl = typeof window !== 'undefined' ? window.location.href : '';
+
+  const shareOnFacebook = () => {
+    window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`, '_blank');
+  };
+
+  const shareOnTwitter = () => {
+    window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(post?.title || '')}`, '_blank');
+  };
+
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(shareUrl);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   if (!post) {
     return (
@@ -79,8 +97,14 @@ export default function BlogPostDetail() {
 
             <div className="flex flex-wrap items-center justify-between gap-8 py-8 border-y border-stone-200">
                <div className="flex items-center gap-4">
-                 <div className="w-12 h-12 rounded-full bg-stone-200 overflow-hidden border-2 border-white shadow-md">
-                   <img src={`https://ui-avatars.com/api/?name=${post.author}&background=f5f5f4&color=78716c`} alt={post.author} className="w-full h-full object-cover" />
+                 <div className="w-12 h-12 rounded-full bg-stone-200 overflow-hidden border-2 border-white shadow-md relative">
+                   <Image 
+                     src={`https://ui-avatars.com/api/?name=${post.author}&background=f5f5f4&color=78716c`} 
+                     alt={post.author} 
+                     fill
+                     className="object-cover" 
+                     referrerPolicy="no-referrer"
+                   />
                  </div>
                  <div>
                    <p className="text-[10px] font-black uppercase tracking-widest text-stone-950 mb-0.5">{post.author}</p>
@@ -88,12 +112,54 @@ export default function BlogPostDetail() {
                  </div>
                </div>
 
-               <div className="flex items-center gap-4">
-                 <button className="p-2 text-stone-400 hover:text-[#B8860B] transition-colors"><Facebook className="w-4 h-4" /></button>
-                 <button className="p-2 text-stone-400 hover:text-[#B8860B] transition-colors"><Twitter className="w-4 h-4" /></button>
-                 <button className="p-2 text-stone-400 hover:text-[#B8860B] transition-colors"><LinkIcon className="w-4 h-4" /></button>
+               <div className="flex items-center gap-4 relative">
+                 <button 
+                   onClick={shareOnFacebook}
+                   className="p-2 text-stone-400 hover:text-[#B8860B] transition-colors"
+                 >
+                   <Facebook className="w-4 h-4" />
+                 </button>
+                 <button 
+                   onClick={shareOnTwitter}
+                   className="p-2 text-stone-400 hover:text-[#B8860B] transition-colors"
+                 >
+                   <Twitter className="w-4 h-4" />
+                 </button>
+                 <button 
+                   onClick={copyToClipboard}
+                   className="p-2 text-stone-400 hover:text-[#B8860B] transition-colors"
+                 >
+                   <LinkIcon className="w-4 h-4" />
+                 </button>
                  <div className="w-[1px] h-4 bg-stone-200 mx-2"></div>
-                 <button className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-stone-950"><Share2 className="w-3 h-3" /> Share Story</button>
+                 <button 
+                   onClick={() => {
+                     if (navigator.share) {
+                       navigator.share({
+                         title: post.title,
+                         url: shareUrl
+                       }).catch(console.error);
+                     } else {
+                       copyToClipboard();
+                     }
+                   }}
+                   className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-stone-950"
+                 >
+                   <Share2 className="w-3 h-3" /> Share Story
+                 </button>
+
+                 <AnimatePresence>
+                   {copied && (
+                     <motion.div
+                       initial={{ opacity: 0, y: 10 }}
+                       animate={{ opacity: 1, y: 0 }}
+                       exit={{ opacity: 0, y: 10 }}
+                       className="absolute -top-12 right-0 bg-stone-900 text-white text-[9px] font-black uppercase tracking-widest px-4 py-2 rounded-xl shadow-2xl whitespace-nowrap"
+                     >
+                       Link Copied to Clipboard
+                     </motion.div>
+                   )}
+                 </AnimatePresence>
                </div>
             </div>
           </motion.div>
@@ -107,9 +173,16 @@ export default function BlogPostDetail() {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1.2, ease: "easeOut" }}
-            className="aspect-[21/9] rounded-[3rem] overflow-hidden shadow-2xl bg-stone-100"
+            className="aspect-[21/9] rounded-[3rem] overflow-hidden shadow-2xl bg-stone-100 relative"
           >
-            <img src={post.image} alt={post.title} className="w-full h-full object-cover" />
+            <Image 
+              src={post.image} 
+              alt={post.title} 
+              fill
+              className="object-cover" 
+              referrerPolicy="no-referrer"
+              priority
+            />
           </motion.div>
         </div>
       </section>
@@ -137,8 +210,14 @@ export default function BlogPostDetail() {
 
         {/* Author Box */}
         <div className="mt-20 p-12 bg-stone-50 rounded-[2.5rem] border border-stone-100 flex flex-col md:flex-row items-center gap-8 text-center md:text-left">
-           <div className="w-24 h-24 rounded-full overflow-hidden bg-white shadow-xl border-4 border-white flex-shrink-0">
-             <img src={`https://ui-avatars.com/api/?name=${post.author}&background=f5f5f4&color=78716c`} alt={post.author} className="w-full h-full object-cover" />
+           <div className="w-24 h-24 rounded-full overflow-hidden bg-white shadow-xl border-4 border-white flex-shrink-0 relative">
+             <Image 
+               src={`https://ui-avatars.com/api/?name=${post.author}&background=f5f5f4&color=78716c`} 
+               alt={post.author} 
+               fill
+               className="object-cover" 
+               referrerPolicy="no-referrer"
+             />
            </div>
            <div>
               <h4 className="luxury-serif text-2xl font-bold mb-2">Written by <span className="italic font-light text-stone-500">{post.author}</span></h4>
@@ -162,8 +241,14 @@ export default function BlogPostDetail() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
             {relatedPosts.map((rp) => (
                <Link key={rp.id} href={`/blog/${rp.slug}`} className="group bg-white rounded-[2.5rem] p-4 flex flex-col sm:flex-row gap-8 shadow-sm hover:shadow-xl transition-all duration-500">
-                  <div className="w-full sm:w-48 aspect-square rounded-[1.5rem] overflow-hidden flex-shrink-0">
-                    <img src={rp.image} alt={rp.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
+                  <div className="w-full sm:w-48 aspect-square rounded-[1.5rem] overflow-hidden flex-shrink-0 relative">
+                    <Image 
+                      src={rp.image} 
+                      alt={rp.title} 
+                      fill
+                      className="object-cover group-hover:scale-110 transition-transform duration-1000" 
+                      referrerPolicy="no-referrer"
+                    />
                   </div>
                   <div className="flex-1 py-4 pr-4 flex flex-col justify-between">
                      <div>

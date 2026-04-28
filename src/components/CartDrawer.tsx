@@ -4,6 +4,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, Minus, Plus, Trash2, Ticket, ArrowRight, CheckCircle2, AlertCircle, ShoppingBag, CreditCard, Sparkles, Banknote, User, Phone, Mail, MapPin, ChevronLeft, Building } from 'lucide-react';
+import Image from 'next/image';
 import { CartItem, Coupon } from '../types';
 import { MOCK_COUPONS } from '../constants';
 
@@ -238,8 +239,14 @@ const CartDrawer: React.FC<CartDrawerProps> = ({
                               }}
                               className="flex gap-6 group"
                             >
-                              <div className="w-24 h-32 rounded-2xl overflow-hidden bg-stone-50 border border-stone-100 flex-shrink-0">
-                                <img src={item.image} alt={item.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                              <div className="w-24 h-32 rounded-2xl overflow-hidden bg-stone-50 border border-stone-100 flex-shrink-0 relative">
+                                <Image 
+                                  src={item.image} 
+                                  alt={item.name} 
+                                  fill
+                                  className="object-cover group-hover:scale-105 transition-transform duration-700" 
+                                  referrerPolicy="no-referrer"
+                                />
                               </div>
                               <div className="flex-1 flex flex-col justify-between py-1">
                                 <div className="flex justify-between items-start">

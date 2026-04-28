@@ -5,6 +5,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ArrowRight, Search, X, Sparkles, Gem, Star, ShieldCheck, SlidersHorizontal, ChevronDown } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Product, CartItem, Coupon } from '../types';
 import ProductList from '../components/ProductList';
 import ProductModal from '../components/ProductModal';
@@ -92,17 +93,22 @@ export default function Home() {
                 className="absolute inset-0 flex flex-col md:flex-row"
               >
                 <div className="w-full md:w-1/2 h-full relative overflow-hidden">
-                  <img 
+                  <Image 
                     src={heroProducts[heroIndex].image} 
-                    className="w-full h-full object-cover scale-105 animate-subtle-zoom opacity-60"
+                    fill
+                    className="object-cover scale-105 animate-subtle-zoom opacity-60"
                     alt={heroProducts[heroIndex].name}
+                    referrerPolicy="no-referrer"
+                    priority
                   />
                 </div>
                 <div className="hidden md:block w-1/2 h-full relative overflow-hidden border-l border-white/5">
-                  <img 
+                  <Image 
                     src={heroProducts[(heroIndex + 1) % heroProducts.length].image} 
-                    className="w-full h-full object-cover scale-105 opacity-50 transition-all duration-1000"
+                    fill
+                    className="object-cover scale-105 opacity-50 transition-all duration-1000"
                     alt="Jewelry Detail"
+                    referrerPolicy="no-referrer"
                   />
                 </div>
               </motion.div>
@@ -320,15 +326,21 @@ export default function Home() {
           {/* Featured Collections Teaser */}
           <section className="mt-48 grid grid-cols-1 md:grid-cols-2 gap-12">
             {[
-              { title: "The Bridal Edit", img: "https://images.unsplash.com/photo-1630019058353-52424578146c?q=80&w=2080&auto=format&fit=crop", dark: true },
-              { title: "Daily Radiance", img: "https://images.unsplash.com/photo-1627290940656-3a79f4206e23?q=80&w=1964&auto=format&fit=crop", dark: false }
+              { title: "The Bridal Edit", img: "https://images.unsplash.com/photo-1598560943122-5873d9ed2c2d?q=80&w=2070&auto=format&fit=crop", dark: true },
+              { title: "Daily Radiance", img: "https://images.unsplash.com/photo-1601121141461-9d6647bca1ed?q=80&w=2070&auto=format&fit=crop", dark: false }
             ].map((collection, idx) => (
               <motion.div 
                 key={idx}
                 whileHover={{ y: -10 }}
                 className="relative h-[600px] rounded-[3rem] overflow-hidden group cursor-pointer"
               >
-                <img src={collection.img} className="w-full h-full object-cover grayscale-[20%] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-[1.5s]" alt={collection.title} />
+                <Image 
+                  src={collection.img} 
+                  fill
+                  className="object-cover grayscale-[20%] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-[1.5s]" 
+                  alt={collection.title}
+                  referrerPolicy="no-referrer"
+                />
                 <div className="absolute inset-0 bg-stone-950/20 group-hover:bg-stone-950/10 transition-all duration-500" />
                 <div className="absolute inset-0 flex flex-col items-center justify-center text-white p-12 text-center">
                   <h3 className="luxury-serif text-5xl font-bold mb-6 italic">{collection.title}</h3>

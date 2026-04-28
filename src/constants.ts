@@ -15,7 +15,7 @@ export const PRODUCTS: Product[] = [
     name: "Antique Gold Temple Earrings",
     description: "Traditionally inspired temple jewelry earrings featuring intricate goddess motifs and ruby accents.",
     price: 65.00,
-    image: "https://images.unsplash.com/photo-1630019058353-52424578146c?q=80&w=2080&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1629224316810-9d8805b95e76?q=80&w=2070&auto=format&fit=crop",
     category: "Earrings"
   },
   {
@@ -23,7 +23,7 @@ export const PRODUCTS: Product[] = [
     name: "Dazzling Polki Heritage Bangle",
     description: "Classic Polki bangle with 22k gold plating finish. A timeless piece that bridges tradition and modernity.",
     price: 120.00,
-    image: "https://images.unsplash.com/photo-1627290940656-3a79f4206e23?q=80&w=1964&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?q=80&w=2070&auto=format&fit=crop",
     category: "Bangles"
   },
   {

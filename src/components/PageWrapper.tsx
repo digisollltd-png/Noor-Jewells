@@ -36,6 +36,17 @@ export default function PageWrapper({ children }: { children: React.ReactNode })
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    if (isCartOpen || isMenuOpen || showSearch) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isCartOpen, isMenuOpen, showSearch]);
+
   return (
     <>
       <Navbar 

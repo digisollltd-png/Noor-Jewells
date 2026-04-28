@@ -4,6 +4,7 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { Heart, ShoppingBag, Eye, Sparkles } from 'lucide-react';
+import Image from 'next/image';
 import { Product } from '../types';
 
 interface ProductListProps {
@@ -29,14 +30,15 @@ const ProductList: React.FC<ProductListProps> = ({ products, onAddToCart, onProd
           <div 
             className="relative aspect-[3/4] mb-3 sm:mb-6 overflow-hidden rounded-2xl sm:rounded-3xl bg-stone-50 cursor-pointer shadow-sm border border-stone-100 ring-1 ring-stone-950/5 group-hover:shadow-2xl group-hover:shadow-[#B8860B]/10 group-hover:border-[#B8860B]/20 transition-all duration-700"
           >
-            <motion.img 
-              onClick={() => onProductClick(product)}
-              src={product.image} 
-              alt={product.name} 
-              whileHover={{ scale: 1.1, y: -10 }}
-              transition={{ duration: 1.5, ease: [0.33, 1, 0.68, 1] }}
-              className="w-full h-full object-cover opacity-90 group-hover:opacity-100"
-            />
+            <div className="w-full h-full relative" onClick={() => onProductClick(product)}>
+              <Image 
+                src={product.image} 
+                alt={product.name} 
+                fill
+                className="object-cover opacity-90 group-hover:opacity-100 group-hover:scale-110 transition-transform duration-1000"
+                referrerPolicy="no-referrer"
+              />
+            </div>
             
             <div className="absolute inset-0 bg-stone-900/0 group-hover:bg-stone-900/5 transition-colors duration-700 pointer-events-none" />
             

@@ -3,11 +3,12 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { Instagram, Heart, MessageCircle, ExternalLink } from 'lucide-react';
+import Image from 'next/image';
 
 const INSTA_POSTS = [
   {
     id: 1,
-    image: "https://images.unsplash.com/photo-1515562141207-7a88fb0ce33e?q=80&w=2070&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce33e?q=80&w=2070&auto=format&fit=crop",
     likes: "1.2k",
     comments: "42"
   },
@@ -98,10 +99,12 @@ export default function InstagramFeed() {
             transition={{ delay: idx * 0.1 }}
             className="group relative aspect-square overflow-hidden rounded-2xl cursor-pointer"
           >
-            <img 
+            <Image 
               src={post.image} 
               alt={`Instagram post ${post.id}`}
-              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+              fill
+              className="object-cover transition-transform duration-700 group-hover:scale-110"
+              referrerPolicy="no-referrer"
             />
             
             <div className="absolute inset-0 bg-stone-950/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-6 text-white backdrop-blur-[2px]">
