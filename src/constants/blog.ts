@@ -85,7 +85,7 @@ export const BLOG_POSTS: BlogPost[] = [
     author: 'Dr. Meera Iyer',
     date: 'April 25, 2026',
     readTime: '6 min read',
-    image: 'https://images.unsplash.com/photo-1644131580983-a72eb3ccb883?q=80&w=1974&auto=format&fit=crop',
+    image: 'https://images.unsplash.com/photo-1635767798638-3e25273a8236?q=80&w=1974&auto=format&fit=crop',
     category: 'Heritage',
     tags: ['History', 'Kundan', 'Artistry']
   }

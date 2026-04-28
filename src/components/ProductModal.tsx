@@ -25,7 +25,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, onClose, onAddToCa
   // Mock alternate views
   const gallery = [
     product.image,
-    "https://images.unsplash.com/photo-1611085583191-a3b1a308c1f1?q=80&w=2070&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1619119069152-a2b331eb392a?q=80&w=2070&auto=format&fit=crop",
     "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?q=80&w=1974&auto=format&fit=crop"
   ];
 

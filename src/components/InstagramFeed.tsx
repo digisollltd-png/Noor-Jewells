@@ -20,7 +20,7 @@ const INSTA_POSTS = [
   },
   {
     id: 3,
-    image: "https://images.unsplash.com/photo-1611085583191-a3b1a308c1f1?q=80&w=2070&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1619119069152-a2b331eb392a?q=80&w=2070&auto=format&fit=crop",
     likes: "2.4k",
     comments: "56"
   },

@@ -55,7 +55,7 @@ export const PRODUCTS: Product[] = [
     name: "Rose Gold Eternity Band",
     description: "Sparkling zircon stones set in a delicate rose gold eternity band. The ultimate symbol of grace.",
     price: 38.00,
-    image: "https://images.unsplash.com/photo-1603561591411-0e7d3f170fe5?q=80&w=1974&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1605100804763-247f67b3557e?q=80&w=2070&auto=format&fit=crop",
     category: "Rings"
   },
   {
@@ -63,7 +63,7 @@ export const PRODUCTS: Product[] = [
     name: "Emerald Empress Maang Tikka",
     description: "A statement maang tikka with deep emerald stones and pearl clusters. For the modern queen.",
     price: 90.00,
-    image: "https://images.unsplash.com/photo-1644131580983-a72eb3ccb883?q=80&w=1974&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1635767798638-3e25273a8236?q=80&w=1974&auto=format&fit=crop",
     category: "Headwear"
   },
   {
@@ -71,7 +71,7 @@ export const PRODUCTS: Product[] = [
     name: "Navratna Heritage Necklace",
     description: "Authentic-looking Navratna (nine-gem) necklace set. A vibrant celebration of heritage.",
     price: 210.00,
-    image: "https://images.unsplash.com/photo-1611085583191-a3b1a308c1f1?q=80&w=2070&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1619119069152-a2b331eb392a?q=80&w=2070&auto=format&fit=crop",
     category: "Necklaces"
   }
 ];

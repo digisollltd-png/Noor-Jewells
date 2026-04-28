@@ -326,7 +326,7 @@ export default function Home() {
           {/* Featured Collections Teaser */}
           <section className="mt-48 grid grid-cols-1 md:grid-cols-2 gap-12">
             {[
-              { title: "The Bridal Edit", img: "https://images.unsplash.com/photo-1598560943122-5873d9ed2c2d?q=80&w=2070&auto=format&fit=crop", dark: true },
+              { title: "The Bridal Edit", img: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?q=80&w=2070&auto=format&fit=crop", dark: true },
               { title: "Daily Radiance", img: "https://images.unsplash.com/photo-1601121141461-9d6647bca1ed?q=80&w=2070&auto=format&fit=crop", dark: false }
             ].map((collection, idx) => (
               <motion.div 
