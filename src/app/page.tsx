@@ -3,7 +3,7 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { ArrowRight, Search, X, Sparkles, Gem, Star, ShieldCheck, SlidersHorizontal, ChevronDown } from 'lucide-react';
+import { ArrowRight, Search, X, Sparkles, Gem, Star, ShieldCheck, SlidersHorizontal, ChevronDown, Instagram, Facebook, Twitter } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Product, CartItem, Coupon } from '../types';
@@ -394,6 +394,17 @@ export default function Home() {
             <p className="text-stone-500 text-sm font-light leading-relaxed italic">
               Crafting timeless beauty for the modern queen. Rooted in heritage, designed for eternity.
             </p>
+            <div className="flex gap-4 mt-8">
+              <Link href="#" className="w-10 h-10 rounded-full border border-stone-200 flex items-center justify-center text-stone-500 hover:text-[#B8860B] hover:border-[#B8860B] transition-all duration-300 group">
+                <Instagram className="w-4 h-4 group-hover:scale-110 transition-transform" />
+              </Link>
+              <Link href="#" className="w-10 h-10 rounded-full border border-stone-200 flex items-center justify-center text-stone-500 hover:text-[#B8860B] hover:border-[#B8860B] transition-all duration-300 group">
+                <Facebook className="w-4 h-4 group-hover:scale-110 transition-transform" />
+              </Link>
+              <Link href="#" className="w-10 h-10 rounded-full border border-stone-200 flex items-center justify-center text-stone-500 hover:text-[#B8860B] hover:border-[#B8860B] transition-all duration-300 group">
+                <Twitter className="w-4 h-4 group-hover:scale-110 transition-transform" />
+              </Link>
+            </div>
           </div>
           
           <div>
