@@ -70,13 +70,13 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, onClose, onAddToCa
         </button>
 
         {/* Gallery Section */}
-        <div className="lg:w-3/5 bg-stone-50 flex flex-col h-[500px] lg:h-auto">
+        <div className="lg:w-3/5 bg-stone-200/20 flex flex-col aspect-[4/5] md:aspect-square lg:aspect-auto lg:h-auto relative">
           <div 
             ref={containerRef}
             onMouseMove={handleMouseMove}
             onMouseEnter={() => setShowMagnifier(true)}
             onMouseLeave={() => setShowMagnifier(false)}
-            className="flex-1 relative overflow-hidden group"
+            className="flex-1 relative overflow-hidden group bg-stone-50"
           >
             <div className="w-full h-full relative">
               <AnimatePresence mode="wait">
@@ -86,13 +86,13 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, onClose, onAddToCa
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.5 }}
-                  className="w-full h-full"
+                  className="w-full h-full p-4 md:p-8"
                 >
                   <Image 
                     src={activeImage} 
                     alt={product.name} 
                     fill
-                    className="object-cover select-none pointer-events-none opacity-90 group-hover:opacity-100"
+                    className="object-contain select-none pointer-events-none opacity-90 group-hover:opacity-100 mix-blend-multiply"
                     referrerPolicy="no-referrer"
                     priority
                   />
@@ -145,12 +145,12 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, onClose, onAddToCa
           </div>
           
           {/* Thumbnails */}
-          <div className="p-6 bg-stone-100/50 border-t border-stone-200 flex justify-center gap-4">
+          <div className="p-4 sm:p-6 bg-stone-100/50 border-t border-stone-200 flex justify-center gap-3 sm:gap-4 overflow-x-auto">
             {gallery.map((img, i) => (
               <button 
                 key={i} 
                 onClick={() => setActiveImage(img)}
-                className={`w-16 h-16 rounded-xl overflow-hidden border-2 transition-all duration-300 relative ${activeImage === img ? 'border-[#B8860B] scale-110 shadow-lg' : 'border-transparent opacity-60 hover:opacity-100'}`}
+                className={`w-12 h-12 sm:w-16 sm:h-16 rounded-xl overflow-hidden border-2 transition-all duration-300 relative flex-shrink-0 ${activeImage === img ? 'border-[#B8860B] scale-105 sm:scale-110 shadow-lg' : 'border-transparent opacity-60 hover:opacity-100'}`}
               >
                 <Image src={img} fill className="object-cover" alt={`View ${i + 1}`} referrerPolicy="no-referrer" />
               </button>
