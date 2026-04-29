@@ -50,12 +50,12 @@ const Navbar: React.FC<NavbarProps> = ({
 
             <div className="hidden lg:flex items-center gap-8 xl:gap-12">
               {[
-                { name: 'New Arrivals', href: '/#catalog' },
-                { name: 'Collections', href: '/#catalog' },
-                { name: 'Bridal', href: '/#catalog' },
-                { name: 'Heritage', href: '/#catalog' },
-                { name: 'Chronicles', href: '/blog' },
-                { name: 'Gifts', href: '/#catalog' }
+                { name: 'Necklaces', href: '/#catalog' },
+                { name: 'Earrings', href: '/#catalog' },
+                { name: 'Bangles', href: '/#catalog' },
+                { name: 'Rings', href: '/#catalog' },
+                { name: 'Headwear', href: '/#catalog' },
+                { name: 'Chronicles', href: '/blog' }
               ].map((item) => (
                 <Link 
                   key={item.name} 

@@ -82,12 +82,12 @@ export default function PageWrapper({ children }: { children: React.ReactNode })
             
             <nav className="p-8 space-y-6">
               {[
-                { name: 'New Arrivals', href: '/#catalog' },
-                { name: 'Collections', href: '/#catalog' },
-                { name: 'Bridal', href: '/#catalog' },
-                { name: 'Heritage', href: '/#catalog' },
-                { name: 'Chronicles', href: '/blog' },
-                { name: 'Gifts', href: '/#catalog' }
+                { name: 'Necklaces', href: '/#catalog' },
+                { name: 'Earrings', href: '/#catalog' },
+                { name: 'Bangles', href: '/#catalog' },
+                { name: 'Rings', href: '/#catalog' },
+                { name: 'Headwear', href: '/#catalog' },
+                { name: 'Chronicles', href: '/blog' }
               ].map((item) => (
                 <Link 
                   key={item.name} 

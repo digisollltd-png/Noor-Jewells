@@ -80,105 +80,94 @@ export default function Home() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1.5 }}
-            className="relative h-[70vh] md:h-[85vh] min-h-[500px] md:min-h-[700px] overflow-hidden rounded-2xl md:rounded-[4rem] bg-stone-950 shadow-2xl"
+            className="relative h-[80vh] min-h-[600px] overflow-hidden rounded-2xl md:rounded-[4rem] bg-stone-100 shadow-2xl flex flex-col md:flex-row"
           >
-            {/* Split Hero Layout with Slideshow */}
-            <AnimatePresence mode="wait">
-              <motion.div 
-                key={heroIndex}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 1 }}
-                className="absolute inset-0 flex flex-col md:flex-row"
+            {/* Text Content Area */}
+            <div className="w-full md:w-1/2 h-full flex flex-col justify-center px-6 md:px-20 lg:px-24 xl:px-32 relative z-20 bg-stone-100">
+               <motion.div
+                initial={{ opacity: 0, x: -30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 0.5 }}
               >
-                <div className="w-full md:w-1/2 h-full relative overflow-hidden">
+                <div className="flex items-center gap-4 mb-8">
+                  <span className="w-12 h-[2px] bg-[#B8860B]"></span>
+                  <span className="text-[#B8860B] font-bold uppercase tracking-[0.4em] text-[10px] italic">ESTD 1992 | ROYAL CURATION</span>
+                </div>
+                
+                <h1 className="luxury-serif text-5xl md:text-7xl lg:text-8xl font-bold text-stone-900 mb-8 tracking-tight leading-[1.05]">
+                  Timeless <br/>
+                  <span className="italic font-light text-[#B8860B]">Heritage</span>
+                </h1>
+
+                <p className="text-stone-600 text-lg md:text-xl mb-12 font-light leading-relaxed max-w-md italic">
+                  Experience the allure of royal Indian craftsmanship with our meticulously curated imitation jewelry collection.
+                </p>
+
+                <div className="flex flex-col sm:flex-row gap-6">
+                  <button 
+                    onClick={() => document.getElementById('catalog')?.scrollIntoView({ behavior: 'smooth' })}
+                    className="group relative px-10 py-5 bg-stone-950 text-white rounded-full font-black text-[10px] uppercase tracking-[0.3em] transition-all hover:scale-105 hover:bg-[#B8860B] flex items-center justify-center gap-4 overflow-hidden"
+                  >
+                    <span className="relative z-10">Shop Collection</span>
+                    <ArrowRight className="w-5 h-5 relative z-10 group-hover:translate-x-1 transition-transform" />
+                  </button>
+                  
+                  <button className="px-10 py-5 border border-stone-300 text-stone-900 rounded-full font-bold text-[10px] uppercase tracking-[0.3em] hover:bg-stone-200 transition-all text-center">
+                    Virtual Tour
+                  </button>
+                </div>
+              </motion.div>
+            </div>
+
+            {/* Image Area - Clean focus */}
+            <div className="w-full md:w-1/2 h-1/2 md:h-full relative overflow-hidden bg-white">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={heroIndex}
+                  initial={{ opacity: 0, scale: 1.1 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 1.2, ease: "easeOut" }}
+                  className="absolute inset-0"
+                >
                   <Image 
                     src={heroProducts[heroIndex].image} 
                     fill
-                    className="object-cover scale-105 animate-subtle-zoom opacity-60"
-                    alt={heroProducts[heroIndex].name}
+                    className="object-cover"
+                    alt="Luxury Jewelry"
                     referrerPolicy="no-referrer"
                     priority
                   />
-                </div>
-                <div className="hidden md:block w-1/2 h-full relative overflow-hidden border-l border-white/5">
-                  <Image 
-                    src={heroProducts[(heroIndex + 1) % heroProducts.length].image} 
-                    fill
-                    className="object-cover scale-105 opacity-50 transition-all duration-1000"
-                    alt="Jewelry Detail"
-                    referrerPolicy="no-referrer"
-                  />
-                </div>
-              </motion.div>
-            </AnimatePresence>
-
-            <div className="absolute inset-0 bg-gradient-to-r from-stone-950 via-stone-950/60 to-transparent z-10" />
-
-            <div className="relative z-20 h-full flex items-center px-6 md:px-24 xl:px-32">
-              <div className="max-w-2xl">
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={`hero-content-${heroIndex}`}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: 20 }}
-                    transition={{ duration: 0.8 }}
-                  >
-                    <div className="flex items-center gap-4 mb-6 md:mb-8">
-                      <span className="w-12 md:w-16 h-[2px] bg-[#B8860B]"></span>
-                      <span className="text-[#B8860B] font-bold uppercase tracking-[0.3em] md:tracking-[0.5em] text-[9px] md:text-[10px] italic transition-all uppercase">ESTD 1992 | {heroProducts[heroIndex].category}</span>
-                    </div>
-                    
-                    <h1 className="luxury-serif text-4xl md:text-8xl font-bold text-white mb-6 md:mb-10 tracking-tight leading-[1.1] md:leading-[0.95]">
-                      {heroProducts[heroIndex].name.split(' ').slice(0, -1).join(' ')} <br/>
-                      <span className="italic font-light text-stone-400">{heroProducts[heroIndex].name.split(' ').slice(-1)}</span>
-                    </h1>
-
-                    <p className="text-stone-300 md:text-stone-400 text-base md:text-xl mb-8 md:mb-14 font-light leading-relaxed max-w-sm md:max-w-lg italic">
-                      {heroProducts[heroIndex].description}
-                    </p>
-                  </motion.div>
-                </AnimatePresence>
-
-                <motion.div 
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.5, duration: 1 }}
-                  className="flex flex-col sm:flex-row gap-4 md:gap-8"
-                >
-                  <button 
-                    onClick={() => document.getElementById('catalog')?.scrollIntoView({ behavior: 'smooth' })}
-                    className="group relative px-8 md:px-12 py-4 md:py-5 bg-[#B8860B] text-white rounded-full font-black text-[10px] md:text-xs uppercase tracking-[0.2em] md:tracking-[0.3em] transition-all hover:scale-105 hover:shadow-[0_20px_50px_rgba(184,134,11,0.3)] flex items-center justify-center gap-3 md:gap-4 overflow-hidden"
-                  >
-                    <span className="relative z-10">Discover Collection</span>
-                    <ArrowRight className="w-4 h-4 md:w-5 md:h-5 relative z-10 group-hover:translate-x-1 transition-transform" />
-                    <div className="absolute inset-0 bg-white group-hover:translate-y-0 translate-y-full transition-transform duration-500 opacity-10" />
-                  </button>
-                  
-                  <button className="px-8 md:px-12 py-4 md:py-5 border border-white/20 text-white rounded-full font-bold text-[10px] md:text-xs uppercase tracking-[0.2em] md:tracking-[0.3em] hover:bg-white hover:text-stone-950 transition-all text-center">
-                    Virtual Styling
-                  </button>
+                  {/* Subtle fade to join with text side on desktop */}
+                  <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-stone-100 to-transparent hidden md:block" />
                 </motion.div>
+              </AnimatePresence>
+
+              {/* Progress Pillar */}
+              <div className="absolute bottom-12 right-12 flex gap-3 z-30">
+                {heroProducts.map((_, i) => (
+                  <button 
+                    key={i}
+                    onClick={() => setHeroIndex(i)}
+                    className={`h-1 transition-all duration-500 rounded-full ${heroIndex === i ? 'w-12 bg-[#B8860B]' : 'w-4 bg-stone-300'}`}
+                  />
+                ))}
               </div>
             </div>
 
-            {/* Floating Brand Elements */}
-            <div className="absolute bottom-12 right-24 hidden xl:block z-20">
-              <div className="flex items-center gap-8 text-white/40">
-                <div className="flex flex-col items-center gap-3">
-                  <Star className="w-5 h-5 text-[#B8860B]" />
-                  <span className="text-[9px] font-bold uppercase tracking-widest leading-none">Global Shipping</span>
+            {/* Floating Trust Elements */}
+            <div className="absolute top-12 right-12 hidden xl:flex flex-col gap-8 z-30">
+              <div className="flex items-center gap-4 text-stone-400 group cursor-default">
+                <div className="w-10 h-10 rounded-full border border-stone-200 flex items-center justify-center group-hover:border-[#B8860B] transition-colors">
+                  <Star className="w-4 h-4 group-hover:text-[#B8860B]" />
                 </div>
-                <div className="flex flex-col items-center gap-3">
-                  <Gem className="w-5 h-5 text-[#B8860B]" />
-                  <span className="text-[9px] font-bold uppercase tracking-widest leading-none">Handcrafted</span>
+                <span className="text-[9px] font-bold uppercase tracking-widest leading-none">Global <br/> Shipping</span>
+              </div>
+              <div className="flex items-center gap-4 text-stone-400 group cursor-default">
+                <div className="w-10 h-10 rounded-full border border-stone-200 flex items-center justify-center group-hover:border-[#B8860B] transition-colors">
+                  <Gem className="w-4 h-4 group-hover:text-[#B8860B]" />
                 </div>
-                <div className="flex flex-col items-center gap-3">
-                  <ShieldCheck className="w-5 h-5 text-[#B8860B]" />
-                  <span className="text-[9px] font-bold uppercase tracking-widest leading-none">Anti-Tarnish</span>
-                </div>
+                <span className="text-[9px] font-bold uppercase tracking-widest leading-none">Heritage <br/> Design</span>
               </div>
             </div>
           </motion.section>

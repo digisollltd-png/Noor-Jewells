@@ -7,7 +7,7 @@ export const PRODUCTS: Product[] = [
     name: "Royal Kundan Choker Set",
     description: "Exquisite hand-crafted Kundan choker set with emerald drops. Perfect for bridal and luxury festive wear.",
     price: 185.00,
-    image: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?q=80&w=1974&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?q=80&w=2070&auto=format&fit=crop",
     category: "Necklaces"
   },
   {
@@ -15,24 +15,24 @@ export const PRODUCTS: Product[] = [
     name: "Antique Gold Temple Earrings",
     description: "Traditionally inspired temple jewelry earrings featuring intricate goddess motifs and ruby accents.",
     price: 65.00,
-    image: "https://images.unsplash.com/photo-1629224316810-9d8805b95e76?q=80&w=2070&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1630019852942-f89202989a59?q=80&w=2070&auto=format&fit=crop",
     category: "Earrings"
   },
   {
     id: 3,
+    name: "Emerald Empress Maang Tikka",
+    description: "A statement maang tikka with deep emerald stones and pearl clusters. For the modern queen.",
+    price: 90.00,
+    image: "https://images.unsplash.com/photo-1621607512214-68297480165e?q=80&w=2070&auto=format&fit=crop",
+    category: "Headwear"
+  },
+  {
+    id: 4,
     name: "Dazzling Polki Heritage Bangle",
     description: "Classic Polki bangle with 22k gold plating finish. A timeless piece that bridges tradition and modernity.",
     price: 120.00,
     image: "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?q=80&w=2070&auto=format&fit=crop",
     category: "Bangles"
-  },
-  {
-    id: 4,
-    name: "Starlight Diamond-Cut Ring",
-    description: "Swarovski-inspired diamond-cut ring with a delicate floral design. Elegance for every finger.",
-    price: 45.00,
-    image: "https://images.unsplash.com/photo-1605100804763-247f67b3557e?q=80&w=2070&auto=format&fit=crop",
-    category: "Rings"
   },
   {
     id: 5,
@@ -60,14 +60,6 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 8,
-    name: "Emerald Empress Maang Tikka",
-    description: "A statement maang tikka with deep emerald stones and pearl clusters. For the modern queen.",
-    price: 90.00,
-    image: "https://images.unsplash.com/photo-1635767798638-3e25273a8236?q=80&w=1974&auto=format&fit=crop",
-    category: "Headwear"
-  },
-  {
-    id: 9,
     name: "Navratna Heritage Necklace",
     description: "Authentic-looking Navratna (nine-gem) necklace set. A vibrant celebration of heritage.",
     price: 210.00,

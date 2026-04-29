@@ -58,7 +58,7 @@ export const BLOG_POSTS: BlogPost[] = [
     author: 'Vikram Singh',
     date: 'April 20, 2026',
     readTime: '4 min read',
-    image: 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?q=80&w=1974&auto=format&fit=crop',
+    image: 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?q=80&w=2070&auto=format&fit=crop',
     category: 'Styling',
     tags: ['Fashion', 'Fusion', 'Styling']
   },
@@ -85,7 +85,7 @@ export const BLOG_POSTS: BlogPost[] = [
     author: 'Dr. Meera Iyer',
     date: 'April 25, 2026',
     readTime: '6 min read',
-    image: 'https://images.unsplash.com/photo-1635767798638-3e25273a8236?q=80&w=1974&auto=format&fit=crop',
+    image: 'https://images.unsplash.com/photo-1621607512214-68297480165e?q=80&w=2070&auto=format&fit=crop',
     category: 'Heritage',
     tags: ['History', 'Kundan', 'Artistry']
   }
