@@ -8,7 +8,7 @@ import Image from 'next/image';
 const INSTA_POSTS = [
   {
     id: 1,
-    image: "https://images.unsplash.com/photo-1611085583191-a3b1a308c1f1?q=80&w=2070&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1635767798638-3e25273a8236?q=80&w=2070&auto=format&fit=crop",
     likes: "1.2k",
     comments: "42"
   },

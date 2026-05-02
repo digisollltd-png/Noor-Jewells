@@ -4,67 +4,99 @@ import { Product, Coupon } from './types';
 export const PRODUCTS: Product[] = [
   {
     id: 1,
-    name: "Royal Kundan Choker Set",
-    description: "Exquisite hand-crafted Kundan choker set with emerald drops. Perfect for bridal and luxury festive wear.",
-    price: 185.00,
+    name: "Heritage Kundan Bridal Set",
+    description: "A majestic hand-crafted Kundan necklace set with semi-precious emerald drops and matching jhumkas. The pinnacle of royal elegance.",
+    price: 245.00,
     image: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?q=80&w=2070&auto=format&fit=crop",
     category: "Necklaces"
   },
   {
     id: 2,
-    name: "Antique Gold Temple Earrings",
-    description: "Traditionally inspired temple jewelry earrings featuring intricate goddess motifs and ruby accents.",
-    price: 65.00,
+    name: "Antique Temple Motif Earrings",
+    description: "22k Gold plated earrings featuring intricate temple architecture motifs and ruby-pink stone accents. Traditionally divine.",
+    price: 78.00,
     image: "https://images.unsplash.com/photo-1630019852942-f89202989a59?q=80&w=2070&auto=format&fit=crop",
     category: "Earrings"
   },
   {
     id: 3,
-    name: "Emerald Empress Maang Tikka",
-    description: "A statement maang tikka with deep emerald stones and pearl clusters. For the modern queen.",
-    price: 90.00,
+    name: "Zirconia Statement Matha Patti",
+    description: "Exquisite bridal headgear adorned with high-grade AAA zirconia and delicate pearl hangings for a royal silhouette.",
+    price: 115.00,
     image: "https://images.unsplash.com/photo-1621607512214-68297480165e?q=80&w=2070&auto=format&fit=crop",
     category: "Headwear"
   },
   {
     id: 4,
-    name: "Dazzling Polki Heritage Bangle",
-    description: "Classic Polki bangle with 22k gold plating finish. A timeless piece that bridges tradition and modernity.",
-    price: 120.00,
+    name: "Matte Finish Polki Chur Bangles",
+    description: "Elegant pair of broad bangles with a matte-gold finish and uncut stone setting. A fusion of vintage and modern aesthetics.",
+    price: 155.00,
     image: "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?q=80&w=2070&auto=format&fit=crop",
     category: "Bangles"
   },
   {
     id: 5,
-    name: "Victorian Silver Pearl Jhumkas",
-    description: "Oxidized silver finish jhumkas adorned with freshwater pearls. Effortless vintage charm.",
-    price: 75.00,
+    name: "Hand-Painted Meenakari Jhumkas",
+    description: "Vibrant blue and gold Meenakari art combined with traditional Jhumka design and fresh water pearls.",
+    price: 85.00,
     image: "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?q=80&w=1974&auto=format&fit=crop",
     category: "Earrings"
   },
   {
     id: 6,
-    name: "Celestial Moonstone Pendant",
-    description: "A ethereal moonstone set in a minimalist gold-plated frame. Capture the magic of the night sky.",
-    price: 55.00,
+    name: "Pearl Infused Rani Haar",
+    description: "A long, multi-layered pearl necklace featuring a large kundan pendant. Inspired by the jewels of the Mughal courts.",
+    price: 195.00,
     image: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?q=80&w=2070&auto=format&fit=crop",
     category: "Necklaces"
   },
   {
     id: 7,
-    name: "Rose Gold Eternity Band",
-    description: "Sparkling zircon stones set in a delicate rose gold eternity band. The ultimate symbol of grace.",
-    price: 38.00,
+    name: "Gilded Floral Eternity Ring",
+    description: "Intricately carved floral patterns in high-quality alloy, finished with micron gold plating and centered stone.",
+    price: 45.00,
     image: "https://images.unsplash.com/photo-1605100804763-247f67b3557e?q=80&w=2070&auto=format&fit=crop",
     category: "Rings"
   },
   {
     id: 8,
-    name: "Navratna Heritage Necklace",
-    description: "Authentic-looking Navratna (nine-gem) necklace set. A vibrant celebration of heritage.",
-    price: 210.00,
+    name: "Navratna Multistone Choker",
+    description: "Classic choker featuring the nine sacred gemstones, representing celestial grace and timeless heritage.",
+    price: 220.00,
     image: "https://images.unsplash.com/photo-1619119069152-a2b331eb392a?q=80&w=2070&auto=format&fit=crop",
     category: "Necklaces"
+  },
+  {
+    id: 9,
+    name: "Royal Peacock Kada",
+    description: "Statement cuff bangle with enamel work peacock motifs and sparkling zircon eyes. A masterpiece of craftsmanship.",
+    price: 135.00,
+    image: "https://images.unsplash.com/photo-1629224316810-9d8805b95e76?q=80&w=2070&auto=format&fit=crop",
+    category: "Bangles"
+  },
+  {
+    id: 10,
+    name: "Ethereal Pearl Nose Nath",
+    description: "A delicate clip-on nose pin featuring a single pristine pearl and tiny gold-plated petals. Minimalist luxury.",
+    price: 25.00,
+    image: "https://images.unsplash.com/photo-1635767798638-3e25273a8236?q=80&w=2070&auto=format&fit=crop",
+    category: "Accessories"
+  },
+  {
+    id: 11,
+    name: "Royal Heritage Anklets (Payal)",
+    description: "Traditional silver-plated anklets with rhythmic ghungroo bells and delicate floral engravings. Pure auditory and visual grace.",
+    price: 65.00,
+    image: "https://images.unsplash.com/photo-1615484477778-ca3b77940c25?q=80&w=2070&auto=format&fit=crop",
+    category: "Anklets"
+  },
+  {
+    id: 12,
+    name: "Golden Filigree Finger Ring",
+    description: "A statement ring with intricate gold filigree work and a central emerald-cut ruby stone. Adjustable for any finger.",
+    price: 48.00,
+    image: "https://images.unsplash.com/photo-1601121141461-9d6647bca1ed?q=80&w=2070&auto=format&fit=crop",
+    category: "Rings"
   }
 ];
 
