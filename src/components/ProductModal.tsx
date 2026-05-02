@@ -17,6 +17,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, onClose, onAddToCa
   const [showMagnifier, setShowMagnifier] = useState(false);
   const [magnifierPos, setMagnifierPos] = useState({ x: 0, y: 0 });
   const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
+  const [isZoomLocked, setIsZoomLocked] = useState(false);
   const [activeImage, setActiveImage] = useState(product.image);
   const [showSpecs, setShowSpecs] = useState(false);
   
@@ -29,12 +30,22 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, onClose, onAddToCa
     "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?q=80&w=1974&auto=format&fit=crop"
   ];
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>) => {
     if (!containerRef.current) return;
     
+    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+    const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
+
     const { left, top, width, height } = containerRef.current.getBoundingClientRect();
-    const x = e.clientX - left;
-    const y = e.clientY - top;
+    const x = clientX - left;
+    const y = clientY - top;
+    
+    // Boundary check
+    if (x < 0 || x > width || y < 0 || y > height) {
+      if (!isZoomLocked) setShowMagnifier(false);
+      return;
+    }
+
     const xPercent = (x / width) * 100;
     const yPercent = (y / height) * 100;
     
@@ -42,8 +53,8 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, onClose, onAddToCa
     setMagnifierPos({ x: xPercent, y: yPercent });
   };
 
-  const magnifierSize = 250;
-  const zoomLevel = 2.5;
+  const magnifierSize = 280;
+  const zoomLevel = 3;
 
   return (
     <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 sm:p-6 lg:p-12 overflow-hidden">
@@ -74,8 +85,13 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, onClose, onAddToCa
           <div 
             ref={containerRef}
             onMouseMove={handleMouseMove}
+            onTouchMove={handleMouseMove}
             onMouseEnter={() => setShowMagnifier(true)}
-            onMouseLeave={() => setShowMagnifier(false)}
+            onMouseLeave={() => !isZoomLocked && setShowMagnifier(false)}
+            onClick={() => {
+              setIsZoomLocked(!isZoomLocked);
+              setShowMagnifier(!isZoomLocked);
+            }}
             className="flex-1 relative overflow-hidden group bg-stone-50 cursor-crosshair transition-colors duration-500"
           >
             <div className="w-full h-full relative">
@@ -106,6 +122,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, onClose, onAddToCa
                   initial={{ opacity: 0, scale: 0.5 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.5 }}
+                  transition={{ type: 'spring', damping: 20, stiffness: 200 }}
                   style={{
                     position: 'absolute',
                     left: cursorPos.x - magnifierSize / 2,
@@ -114,8 +131,8 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, onClose, onAddToCa
                     height: magnifierSize,
                     borderRadius: '50%',
                     pointerEvents: 'none',
-                    border: '2px solid #B8860B',
-                    boxShadow: '0 25px 50px -12px rgba(184,134,11,0.25), inset 0 0 40px rgba(255,255,255,0.4)',
+                    border: '3px solid #B8860B',
+                    boxShadow: '0 25px 80px -12px rgba(184,134,11,0.4), inset 0 0 60px rgba(255,255,255,0.6)',
                     backgroundColor: '#fff',
                     backgroundImage: `url(${activeImage})`,
                     backgroundRepeat: 'no-repeat',

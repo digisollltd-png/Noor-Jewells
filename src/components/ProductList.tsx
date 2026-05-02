@@ -49,14 +49,14 @@ const ProductList: React.FC<ProductListProps> = ({ products, onAddToCart, onProd
             </div>
 
             <button 
-              className="absolute top-2 right-2 sm:top-4 sm:right-4 p-1.5 sm:p-2.5 bg-white/80 backdrop-blur-md rounded-full text-stone-500 hover:text-rose-500 hover:bg-white transition-all shadow-sm opacity-0 group-hover:opacity-100 duration-500 active:scale-95"
+              className="absolute top-2 right-2 sm:top-4 sm:right-4 p-1.5 sm:p-2.5 bg-white/80 backdrop-blur-md rounded-full text-stone-500 hover:text-rose-500 hover:bg-white transition-all shadow-sm opacity-100 lg:opacity-0 lg:group-hover:opacity-100 duration-500 active:scale-95"
               onClick={(e) => { e.stopPropagation(); }}
             >
               <Heart className="w-3 h-3 sm:w-4 sm:h-4" />
             </button>
 
             {/* Quick Actions at Bottom of Image */}
-            <div className="absolute bottom-3 sm:bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2 sm:gap-3 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-700 ease-out">
+            <div className="absolute bottom-3 sm:bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2 sm:gap-3 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 translate-y-0 lg:translate-y-4 lg:group-hover:translate-y-0 transition-all duration-700 ease-out">
               <button 
                 onClick={(e) => { e.stopPropagation(); onProductClick(product); }}
                 className="w-8 h-8 sm:w-12 sm:h-12 bg-white flex items-center justify-center rounded-xl sm:rounded-2xl text-stone-950 shadow-xl border border-stone-100 hover:bg-[#B8860B] hover:text-white hover:border-[#B8860B] transition-all duration-300 active:scale-90"
