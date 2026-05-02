@@ -81,7 +81,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, onClose, onAddToCa
         </button>
 
         {/* Gallery Section */}
-        <div className="lg:w-3/5 bg-stone-50 flex flex-col relative overflow-hidden h-[45vh] sm:h-[60vh] lg:h-auto">
+        <div className="lg:w-3/5 bg-stone-50 flex flex-col relative overflow-hidden aspect-[4/5] sm:aspect-auto sm:h-[60vh] lg:h-auto lg:min-h-full">
           <div 
             ref={containerRef}
             onMouseMove={handleMouseMove}
@@ -102,7 +102,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, onClose, onAddToCa
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 1 }}
                   transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                  className="w-full h-full relative p-4 sm:p-12 md:p-16"
+                  className="w-full h-full relative p-4"
                 >
                   <Image 
                     src={activeImage} 
