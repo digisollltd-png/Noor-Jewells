@@ -169,6 +169,21 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, onClose, onAddToCa
                 exit={{ opacity: 0, x: -20 }}
                 className="flex-1 space-y-10"
               >
+                <div className="pt-2 pb-6 space-y-4">
+                  <button 
+                    onClick={() => onAddToCart(product)}
+                    className="group w-full py-5 bg-stone-950 text-white rounded-2xl font-black text-[11px] uppercase tracking-[0.3em] hover:bg-[#B8860B] transition-all duration-500 shadow-2xl flex items-center justify-center gap-3 active:scale-[0.98]"
+                  >
+                    <Plus className="w-4 h-4 group-hover:rotate-90 transition-transform" /> Add to Your Collection
+                  </button>
+                  
+                  <div className="flex items-center justify-center gap-2 text-stone-300">
+                    <Sparkles className="w-3 h-3" />
+                    <span className="text-[9px] font-bold uppercase tracking-[0.4em]">Heritage Piece No. {product.id}0{Math.floor(Math.random() * 100)}</span>
+                    <Sparkles className="w-3 h-3" />
+                  </div>
+                </div>
+
                 <div className="space-y-4">
                   <div className="flex items-center gap-4">
                     <span className="px-3 py-1 bg-stone-50 text-[#B8860B] text-[9px] font-black uppercase tracking-[0.2em] rounded-full border border-stone-100 italic">
@@ -241,19 +256,10 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, onClose, onAddToCa
                   </div>
                 </div>
 
-                <div className="pt-4 pb-8 space-y-4">
-                  <button 
-                    onClick={() => onAddToCart(product)}
-                    className="group w-full py-5 bg-stone-950 text-white rounded-2xl font-black text-[11px] uppercase tracking-[0.3em] hover:bg-[#B8860B] transition-all duration-500 shadow-2xl flex items-center justify-center gap-3 active:scale-[0.98]"
-                  >
-                    <Plus className="w-4 h-4 group-hover:rotate-90 transition-transform" /> Add to Your Collection
-                  </button>
-                  
-                  <div className="flex items-center justify-center gap-2 text-stone-300">
-                    <Sparkles className="w-3 h-3" />
-                    <span className="text-[9px] font-bold uppercase tracking-[0.4em]">Heritage Piece No. {product.id}0{Math.floor(Math.random() * 100)}</span>
-                    <Sparkles className="w-3 h-3" />
-                  </div>
+                <div className="pt-4 border-t border-stone-100 flex items-center justify-center gap-2 text-stone-300">
+                  <Sparkles className="w-3 h-3" />
+                  <span className="text-[9px] font-bold uppercase tracking-[0.4em]">Designed for Modern Royalty</span>
+                  <Sparkles className="w-3 h-3" />
                 </div>
               </motion.div>
             ) : (
