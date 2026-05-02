@@ -53,11 +53,11 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, onClose, onAddToCa
     setMagnifierPos({ x: xPercent, y: yPercent });
   };
 
-  const magnifierSize = 280;
-  const zoomLevel = 3;
+  const magnifierSize = 250;
+  const zoomLevel = 2.5; 
 
   return (
-    <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 sm:p-6 lg:p-12 overflow-hidden">
+    <div className="fixed inset-0 z-[110] flex items-center justify-center p-2 sm:p-6 lg:p-12 overflow-hidden">
       <motion.div 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -71,17 +71,17 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, onClose, onAddToCa
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 30 }}
         transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-        className="relative w-full max-w-7xl bg-[#FFFEFB] rounded-3xl overflow-hidden shadow-2xl flex flex-col lg:flex-row max-h-[90vh] lg:max-h-[85vh]"
+        className="relative w-full max-w-7xl bg-[#FFFEFB] rounded-3xl overflow-hidden shadow-2xl flex flex-col lg:flex-row max-h-[95vh] lg:max-h-[85vh]"
       >
         <button 
           onClick={onClose}
-          className="absolute top-6 right-6 z-50 p-3 bg-white/95 backdrop-blur-md rounded-full text-stone-950 hover:bg-[#B8860B] hover:text-white transition-all shadow-xl active:scale-90 border border-stone-100"
+          className="absolute top-4 right-4 sm:top-6 sm:right-6 z-50 p-2 sm:p-3 bg-white/95 backdrop-blur-md rounded-full text-stone-950 hover:bg-[#B8860B] hover:text-white transition-all shadow-xl active:scale-90 border border-stone-100"
         >
           <X className="w-5 h-5" />
         </button>
 
         {/* Gallery Section */}
-        <div className="lg:w-3/5 bg-stone-50 flex flex-col aspect-[4/5] md:aspect-square lg:aspect-auto lg:h-auto relative overflow-hidden">
+        <div className="lg:w-3/5 bg-stone-50 flex flex-col relative overflow-hidden h-[45vh] sm:h-[60vh] lg:h-auto">
           <div 
             ref={containerRef}
             onMouseMove={handleMouseMove}
@@ -98,17 +98,17 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, onClose, onAddToCa
               <AnimatePresence mode="wait">
                 <motion.div
                   key={activeImage}
-                  initial={{ opacity: 0, scale: 1.05 }}
+                  initial={{ opacity: 0, scale: 1.02 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                  className="w-full h-full p-6 md:p-12"
+                  exit={{ opacity: 0, scale: 1 }}
+                  transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                  className="w-full h-full relative p-4 sm:p-12 md:p-16"
                 >
                   <Image 
                     src={activeImage} 
                     alt={product.name} 
                     fill
-                    className="object-contain select-none pointer-events-none mix-blend-multiply transition-opacity duration-700"
+                    className="object-contain select-none pointer-events-none transition-opacity duration-700"
                     referrerPolicy="no-referrer"
                     priority
                   />
@@ -123,6 +123,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, onClose, onAddToCa
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.5 }}
                   transition={{ type: 'spring', damping: 20, stiffness: 200 }}
+                  className="hidden md:block"
                   style={{
                     position: 'absolute',
                     left: cursorPos.x - magnifierSize / 2,
