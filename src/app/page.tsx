@@ -83,73 +83,74 @@ export default function Home() {
             className="relative h-[80vh] min-h-[600px] overflow-hidden rounded-2xl md:rounded-[4rem] bg-stone-100 shadow-2xl flex flex-col md:flex-row"
           >
             {/* Text Content Area */}
-            <div className="w-full md:w-1/2 h-full flex flex-col justify-center px-6 md:px-20 lg:px-24 xl:px-32 relative z-20 bg-stone-100">
+            <div className="w-full md:w-1/2 h-[50%] md:h-full flex flex-col justify-center px-6 md:px-12 lg:px-16 xl:px-24 relative z-20 bg-[#F9F8F6]">
                <motion.div
-                initial={{ opacity: 0, x: -30 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, delay: 0.5 }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
               >
-                <div className="flex items-center gap-4 mb-8">
-                  <span className="w-12 h-[2px] bg-[#B8860B]"></span>
-                  <span className="text-[#B8860B] font-bold uppercase tracking-[0.4em] text-[10px] italic">ESTD 1992 | ROYAL CURATION</span>
+                <div className="flex items-center gap-3 mb-6 md:mb-8">
+                  <span className="w-8 h-[1px] bg-[#B8860B]"></span>
+                  <span className="text-[#B8860B] font-bold uppercase tracking-[0.3em] text-[8px] md:text-[10px] italic">ESTD 1992 | ROYAL CURATION</span>
                 </div>
                 
-                <h1 className="luxury-serif text-5xl md:text-7xl lg:text-8xl font-bold text-stone-900 mb-8 tracking-tight leading-[1.05]">
+                <h1 className="luxury-serif text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-stone-900 mb-6 md:mb-8 tracking-tight leading-[1.1]">
                   Timeless <br/>
                   <span className="italic font-light text-[#B8860B]">Heritage</span>
                 </h1>
 
-                <p className="text-stone-600 text-lg md:text-xl mb-12 font-light leading-relaxed max-w-md italic">
+                <p className="text-stone-600 text-sm md:text-lg mb-8 md:mb-12 font-light leading-relaxed max-w-md italic">
                   Experience the allure of royal Indian craftsmanship with our meticulously curated imitation jewelry collection.
                 </p>
 
-                <div className="flex flex-col sm:flex-row gap-6">
+                <div className="flex flex-col sm:flex-row gap-4 md:gap-6">
                   <button 
                     onClick={() => document.getElementById('catalog')?.scrollIntoView({ behavior: 'smooth' })}
-                    className="group relative px-10 py-5 bg-stone-950 text-white rounded-full font-black text-[10px] uppercase tracking-[0.3em] transition-all hover:scale-105 hover:bg-[#B8860B] flex items-center justify-center gap-4 overflow-hidden"
+                    className="group relative px-8 py-4 md:px-10 md:py-5 bg-stone-950 text-white rounded-full font-black text-[10px] uppercase tracking-[0.3em] transition-all hover:scale-105 hover:bg-[#B8860B] flex items-center justify-center gap-4 overflow-hidden"
                   >
                     <span className="relative z-10">Shop Collection</span>
-                    <ArrowRight className="w-5 h-5 relative z-10 group-hover:translate-x-1 transition-transform" />
+                    <ArrowRight className="w-4 h-4 md:w-5 md:h-5 relative z-10 group-hover:translate-x-1 transition-transform" />
                   </button>
                   
-                  <button className="px-10 py-5 border border-stone-300 text-stone-900 rounded-full font-bold text-[10px] uppercase tracking-[0.3em] hover:bg-stone-200 transition-all text-center">
+                  <button className="px-8 py-4 md:px-10 md:py-5 border border-stone-300 text-stone-900 rounded-full font-bold text-[10px] uppercase tracking-[0.3em] hover:bg-stone-200 transition-all text-center">
                     Virtual Tour
                   </button>
                 </div>
               </motion.div>
             </div>
 
-            {/* Image Area - Clean focus */}
-            <div className="w-full md:w-1/2 h-1/2 md:h-full relative overflow-hidden bg-white">
+            {/* Image Area - Extreme focus and clarity */}
+            <div className="w-full md:w-1/2 h-[50%] md:h-full relative overflow-hidden bg-white">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={heroIndex}
-                  initial={{ opacity: 0, scale: 1.1 }}
+                  initial={{ opacity: 0, scale: 1.05 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{ duration: 1.2, ease: "easeOut" }}
+                  exit={{ opacity: 0, scale: 1 }}
+                  transition={{ duration: 1, ease: "easeOut" }}
                   className="absolute inset-0"
                 >
                   <Image 
                     src={heroProducts[heroIndex].image} 
                     fill
-                    className="object-cover"
+                    className="object-cover md:object-center"
                     alt="Luxury Jewelry"
                     referrerPolicy="no-referrer"
                     priority
+                    sizes="(max-width: 768px) 100vw, 50vw"
                   />
                   {/* Subtle fade to join with text side on desktop */}
-                  <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-stone-100 to-transparent hidden md:block" />
+                  <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-[#F9F8F6] to-transparent hidden md:block" />
                 </motion.div>
               </AnimatePresence>
 
               {/* Progress Pillar */}
-              <div className="absolute bottom-12 right-12 flex gap-3 z-30">
+              <div className="absolute bottom-8 right-8 md:bottom-12 md:right-12 flex gap-2 md:gap-3 z-30">
                 {heroProducts.map((_, i) => (
                   <button 
                     key={i}
                     onClick={() => setHeroIndex(i)}
-                    className={`h-1 transition-all duration-500 rounded-full ${heroIndex === i ? 'w-12 bg-[#B8860B]' : 'w-4 bg-stone-300'}`}
+                    className={`h-1 transition-all duration-500 rounded-full ${heroIndex === i ? 'w-8 md:w-12 bg-[#B8860B]' : 'w-2 md:w-4 bg-stone-300/50'}`}
                   />
                 ))}
               </div>
@@ -343,6 +344,10 @@ export default function Home() {
           </section>
         </div>
 
+        <BlogSection />
+        
+        <InstagramFeed />
+
         {/* Newsletter / Club */}
         <section className="max-w-4xl mx-auto px-6 py-40 text-center">
            <motion.div
@@ -371,8 +376,6 @@ export default function Home() {
         </section>
       </main>
 
-      <BlogSection />
-      <InstagramFeed />
       <ScrollToTop />
 
       {/* Footer */}

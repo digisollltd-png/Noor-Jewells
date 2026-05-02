@@ -54,8 +54,7 @@ const Navbar: React.FC<NavbarProps> = ({
                 { name: 'Earrings', href: '/#catalog' },
                 { name: 'Bangles', href: '/#catalog' },
                 { name: 'Rings', href: '/#catalog' },
-                { name: 'Headwear', href: '/#catalog' },
-                { name: 'Chronicles', href: '/blog' }
+                { name: 'Headwear', href: '/#catalog' }
               ].map((item) => (
                 <Link 
                   key={item.name} 
