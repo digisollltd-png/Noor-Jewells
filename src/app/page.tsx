@@ -100,7 +100,7 @@ export default function Home() {
                 </h1>
 
                 <p className="text-stone-600 text-sm md:text-lg mb-8 md:mb-12 font-light leading-relaxed max-w-md italic">
-                  Experience the allure of royal Indian craftsmanship with our meticulously curated imitation jewelry collection.
+                  Experience the allure of royal craftsmanship with our meticulously curated imitation jewelry collection, delivered across Bangladesh.
                 </p>
 
                 <div className="flex flex-col sm:flex-row gap-4 md:gap-6">
@@ -162,7 +162,7 @@ export default function Home() {
                 <div className="w-10 h-10 rounded-full border border-stone-200 flex items-center justify-center group-hover:border-[#B8860B] transition-colors">
                   <Star className="w-4 h-4 group-hover:text-[#B8860B]" />
                 </div>
-                <span className="text-[9px] font-bold uppercase tracking-widest leading-none">Global <br/> Shipping</span>
+                <span className="text-[9px] font-bold uppercase tracking-widest leading-none">Nationwide <br/> Shipping</span>
               </div>
               <div className="flex items-center gap-4 text-stone-400 group cursor-default">
                 <div className="w-10 h-10 rounded-full border border-stone-200 flex items-center justify-center group-hover:border-[#B8860B] transition-colors">
@@ -236,7 +236,7 @@ export default function Home() {
                     <div className="space-y-6">
                       <div className="flex justify-between items-center">
                         <h4 className="text-[10px] font-black uppercase tracking-widest text-stone-400 italic">Price Ceiling</h4>
-                        <span className="text-sm font-bold text-[#B8860B]">${priceRange}</span>
+                        <span className="text-sm font-bold text-[#B8860B]">৳{priceRange.toLocaleString()}</span>
                       </div>
                       <div className="relative pt-2">
                         <input 
@@ -248,8 +248,8 @@ export default function Home() {
                           className="w-full h-1.5 bg-stone-200 rounded-lg appearance-none cursor-pointer accent-[#B8860B]"
                         />
                         <div className="flex justify-between mt-4 text-[9px] font-bold text-stone-400 uppercase tracking-tighter">
-                          <span>$0</span>
-                          <span>Maximum: ${maxPriceLimit}</span>
+                          <span>৳0</span>
+                          <span>Maximum: ৳{maxPriceLimit.toLocaleString()}</span>
                         </div>
                       </div>
                     </div>
@@ -439,7 +439,7 @@ export default function Home() {
           <div>
              <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-stone-950 mb-8 italic">Contact</h4>
              <p className="text-stone-500 text-sm font-light leading-relaxed italic mb-2">Concierge: hello@noorejewells.com</p>
-             <p className="text-stone-500 text-sm font-light leading-relaxed italic">WhatsApp: +91 999 000 1111</p>
+             <p className="text-stone-500 text-sm font-light leading-relaxed italic">WhatsApp: +880 1700 000000</p>
           </div>
         </div>
         

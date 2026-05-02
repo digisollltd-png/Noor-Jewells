@@ -229,9 +229,9 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, onClose, onAddToCa
 
                   <div className="flex items-baseline gap-4">
                     <p className="luxury-serif text-4xl font-bold text-stone-950">
-                      ${product.price.toFixed(2)}
+                      ৳{product.price.toLocaleString()}
                     </p>
-                    <span className="text-stone-300 line-through text-lg font-light italic">${(product.price * 1.5).toFixed(0)}</span>
+                    <span className="text-stone-300 line-through text-lg font-light italic">৳{(product.price * 1.5).toLocaleString()}</span>
                   </div>
 
                   <div className="space-y-6 bg-stone-50/50 p-6 rounded-3xl border border-stone-100">

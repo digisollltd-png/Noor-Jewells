@@ -53,7 +53,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({
     const found = MOCK_COUPONS.find(c => c.code.toUpperCase() === couponCode.toUpperCase());
     if (found) {
       if (subtotal < found.min_spend) {
-        setCouponError(`Minimum purchase for this code is $${found.min_spend}`);
+        setCouponError(`Minimum purchase for this code is ৳${found.min_spend}`);
       } else {
         setActiveCoupon(found);
         setCouponCode('');
@@ -254,7 +254,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({
                                     <h4 className="luxury-serif font-bold text-stone-950 text-base mb-1 hover:text-[#B8860B] transition-colors cursor-pointer">{item.name}</h4>
                                     <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#B8860B]">{item.category}</p>
                                   </div>
-                                  <span className="font-bold text-stone-950 text-base">${(item.price * item.quantity).toFixed(2)}</span>
+                                  <span className="font-bold text-stone-950 text-base">৳{(item.price * item.quantity).toLocaleString()}</span>
                                 </div>
                                 
                                 <div className="flex items-center justify-between">
@@ -395,12 +395,12 @@ const CartDrawer: React.FC<CartDrawerProps> = ({
                           <div className="space-y-3">
                             <div className="flex justify-between text-sm">
                               <span className="text-stone-500 font-medium">Subtotal</span>
-                              <span className="font-bold text-stone-950">${subtotal.toFixed(2)}</span>
+                              <span className="font-bold text-stone-950">৳{subtotal.toLocaleString()}</span>
                             </div>
                             {activeCoupon && (
                               <div className="flex justify-between text-sm font-bold text-[#B8860B]">
                                 <span>Privilege Discount</span>
-                                <span>-${discount.toFixed(2)}</span>
+                                <span>-৳{discount.toLocaleString()}</span>
                               </div>
                             )}
                             <div className="flex justify-between text-sm">
@@ -524,7 +524,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({
                           animate={{ opacity: 1, y: 0 }}
                           className="text-4xl font-bold text-stone-950 tracking-tighter block"
                         >
-                          ${total.toFixed(2)}
+                          ৳{total.toLocaleString()}
                         </motion.span>
                       </div>
                       <div className="flex flex-col items-end gap-1">
