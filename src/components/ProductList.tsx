@@ -5,15 +5,18 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { Heart, ShoppingBag, Eye, Sparkles } from 'lucide-react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { Product } from '../types';
 
 interface ProductListProps {
   products: Product[];
   onAddToCart: (p: Product) => void;
-  onProductClick: (p: Product) => void;
+  onProductClick?: (p: Product) => void;
 }
 
 const ProductList: React.FC<ProductListProps> = ({ products, onAddToCart, onProductClick }) => {
+  const router = useRouter();
+
   return (
     <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-3 sm:gap-x-8 gap-y-8 sm:gap-y-16">
       {products.map((product, idx) => (
@@ -30,7 +33,7 @@ const ProductList: React.FC<ProductListProps> = ({ products, onAddToCart, onProd
           <div 
             className="relative aspect-[3/4] mb-3 sm:mb-6 overflow-hidden rounded-2xl sm:rounded-3xl bg-stone-50 cursor-pointer shadow-sm border border-stone-100 ring-1 ring-stone-950/5 group-hover:shadow-2xl group-hover:shadow-[#B8860B]/10 group-hover:border-[#B8860B]/20 transition-all duration-700"
           >
-            <div className="w-full h-full relative" onClick={() => onProductClick(product)}>
+            <div className="w-full h-full relative" onClick={() => router.push(`/products/${product.id}`)}>
               <Image 
                 src={product.image} 
                 alt={product.name} 
@@ -58,9 +61,9 @@ const ProductList: React.FC<ProductListProps> = ({ products, onAddToCart, onProd
             {/* Quick Actions at Bottom of Image */}
             <div className="absolute bottom-3 sm:bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2 sm:gap-3 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 translate-y-0 lg:translate-y-4 lg:group-hover:translate-y-0 transition-all duration-700 ease-out">
               <button 
-                onClick={(e) => { e.stopPropagation(); onProductClick(product); }}
+                onClick={(e) => { e.stopPropagation(); router.push(`/products/${product.id}`); }}
                 className="w-8 h-8 sm:w-12 sm:h-12 bg-white flex items-center justify-center rounded-xl sm:rounded-2xl text-stone-950 shadow-xl border border-stone-100 hover:bg-[#B8860B] hover:text-white hover:border-[#B8860B] transition-all duration-300 active:scale-90"
-                title="Quick View"
+                title="View Details"
               >
                 <Eye className="w-4 h-4 sm:w-5 sm:h-5" />
               </button>
@@ -82,7 +85,7 @@ const ProductList: React.FC<ProductListProps> = ({ products, onAddToCart, onProd
           >
             <div className="flex flex-col sm:flex-row sm:justify-between sm:items-baseline">
               <h3 
-                onClick={() => onProductClick(product)}
+                onClick={() => router.push(`/products/${product.id}`)}
                 className="luxury-serif text-[13px] sm:text-xl font-bold text-stone-950 group-hover:text-[#B8860B] transition-colors cursor-pointer leading-tight sm:leading-normal"
               >
                 {product.name}

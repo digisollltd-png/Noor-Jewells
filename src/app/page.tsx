@@ -3,6 +3,7 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import { useParams, useRouter } from 'next/navigation';
 import { ArrowRight, Search, X, Sparkles, Gem, Star, ShieldCheck, SlidersHorizontal, ChevronDown, Instagram, Facebook, Twitter } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -17,6 +18,7 @@ import { PRODUCTS } from '../constants';
 import { useShop } from '../context/ShopContext';
 
 export default function Home() {
+  const router = useRouter();
   const { 
     addToCart, 
     searchQuery,
@@ -24,7 +26,6 @@ export default function Home() {
   } = useShop();
 
   const [activeCategory, setActiveCategory] = useState('All');
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [heroIndex, setHeroIndex] = useState(0);
   
   // New States for Filter/Sort
@@ -68,7 +69,6 @@ export default function Home() {
 
   const handleAddToCart = (product: Product) => {
     addToCart(product);
-    setSelectedProduct(null);
   };
 
   return (
@@ -128,7 +128,8 @@ export default function Home() {
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 1 }}
                   transition={{ duration: 1, ease: "easeOut" }}
-                  className="absolute inset-0"
+                  className="absolute inset-0 cursor-pointer"
+                  onClick={() => router.push(`/products/${heroProducts[heroIndex].id}`)}
                 >
                   <Image 
                     src={heroProducts[heroIndex].image} 
@@ -309,7 +310,6 @@ export default function Home() {
             <ProductList 
               products={filteredProducts} 
               onAddToCart={handleAddToCart}
-              onProductClick={(p) => setSelectedProduct(p)}
             />
           )}
 
@@ -451,16 +451,6 @@ export default function Home() {
            </div>
         </div>
       </footer>
-
-      <AnimatePresence>
-        {selectedProduct && (
-          <ProductModal 
-            product={selectedProduct} 
-            onClose={() => setSelectedProduct(null)}
-            onAddToCart={handleAddToCart}
-          />
-        )}
-      </AnimatePresence>
     </div>
   );
 }
