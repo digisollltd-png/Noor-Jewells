@@ -14,6 +14,7 @@ import {
   Gem, 
   Sparkles, 
   ChevronRight,
+  ChevronLeft,
   Share2,
   Info,
   Calendar
@@ -27,18 +28,30 @@ export default function ProductPage() {
   const params = useParams();
   const router = useRouter();
   const { addToCart } = useShop();
-  const [activeImage, setActiveImage] = useState<string | null>(null);
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [isLiked, setIsLiked] = useState(false);
+  const [direction, setDirection] = useState(0);
 
   const product = useMemo(() => {
     return PRODUCTS.find(p => p.id === Number(params.id));
   }, [params.id]);
 
-  useEffect(() => {
-    if (product) {
-      setActiveImage(product.image);
-    }
-  }, [product]);
+  // Mock alternate views
+  const gallery = useMemo(() => [
+    product.image,
+    "https://images.unsplash.com/photo-1619119069152-a2b331eb392a?q=80&w=2070&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?q=80&w=1974&auto=format&fit=crop"
+  ], [product.image]);
+
+  const nextImage = () => {
+    setDirection(1);
+    setActiveImageIndex((prev) => (prev + 1) % gallery.length);
+  };
+
+  const prevImage = () => {
+    setDirection(-1);
+    setActiveImageIndex((prev) => (prev - 1 + gallery.length) % gallery.length);
+  };
 
   if (!product) {
     return (
@@ -55,13 +68,6 @@ export default function ProductPage() {
       </div>
     );
   }
-
-  // Mock alternate views
-  const gallery = [
-    product.image,
-    "https://images.unsplash.com/photo-1619119069152-a2b331eb392a?q=80&w=2070&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?q=80&w=1974&auto=format&fit=crop"
-  ];
 
   const breadcrumbs = [
     { name: 'Heritage Collection', href: '/' },
@@ -97,17 +103,41 @@ export default function ProductPage() {
           {/* Gallery Section - Sticky on Desktop */}
           <div className="lg:sticky lg:top-32 h-fit space-y-8">
             <div className="relative aspect-[4/5] bg-stone-50 rounded-[3rem] overflow-hidden group shadow-sm border border-stone-100">
-              <AnimatePresence mode="wait">
+              <AnimatePresence mode="popLayout" initial={false} custom={direction}>
                 <motion.div
-                  key={activeImage}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.8 }}
-                  className="w-full h-full relative p-8 sm:p-12"
+                  key={activeImageIndex}
+                  custom={direction}
+                  variants={{
+                    enter: (direction: number) => ({
+                      x: direction > 0 ? '100%' : '-100%',
+                      opacity: 0,
+                      scale: 0.95
+                    }),
+                    center: {
+                      zIndex: 1,
+                      x: 0,
+                      opacity: 1,
+                      scale: 1
+                    },
+                    exit: (direction: number) => ({
+                      zIndex: 0,
+                      x: direction < 0 ? '100%' : '-100%',
+                      opacity: 0,
+                      scale: 0.95
+                    })
+                  }}
+                  initial="enter"
+                  animate="center"
+                  exit="exit"
+                  transition={{
+                    x: { type: "spring", stiffness: 300, damping: 30 },
+                    opacity: { duration: 0.4 },
+                    scale: { duration: 0.4 }
+                  }}
+                  className="w-full h-full relative p-8 sm:p-12 flex items-center justify-center"
                 >
                   <Image 
-                    src={activeImage || product.image} 
+                    src={gallery[activeImageIndex]} 
                     alt={product.name} 
                     fill
                     className="object-contain"
@@ -117,7 +147,23 @@ export default function ProductPage() {
                 </motion.div>
               </AnimatePresence>
 
-              <div className="absolute top-8 right-8 flex flex-col gap-4">
+              {/* Navigation Arrows */}
+              <div className="absolute inset-x-4 top-1/2 -translate-y-1/2 flex justify-between pointer-events-none z-10">
+                <button 
+                  onClick={prevImage}
+                  className="w-12 h-12 rounded-full bg-white/40 backdrop-blur-md border border-white/50 flex items-center justify-center text-stone-900 hover:bg-white hover:scale-110 active:scale-95 transition-all shadow-xl pointer-events-auto"
+                >
+                  <ChevronLeft className="w-6 h-6" />
+                </button>
+                <button 
+                  onClick={nextImage}
+                  className="w-12 h-12 rounded-full bg-white/40 backdrop-blur-md border border-white/50 flex items-center justify-center text-stone-900 hover:bg-white hover:scale-110 active:scale-95 transition-all shadow-xl pointer-events-auto"
+                >
+                  <ChevronRight className="w-6 h-6" />
+                </button>
+              </div>
+
+              <div className="absolute top-8 right-8 flex flex-col gap-4 z-10">
                 <button 
                   onClick={() => setIsLiked(!isLiked)}
                   className={`w-12 h-12 rounded-full border flex items-center justify-center transition-all ${isLiked ? 'bg-rose-50 border-rose-100 text-rose-500 shadow-lg' : 'bg-white/80 border-stone-200 text-stone-400 hover:text-stone-900 backdrop-blur-md'}`}
@@ -129,10 +175,18 @@ export default function ProductPage() {
                 </button>
               </div>
 
-              <div className="absolute bottom-8 left-8">
-                <div className="bg-white/90 backdrop-blur-md px-6 py-3 rounded-full flex items-center gap-3 shadow-lg border border-stone-100">
-                  <Sparkles className="w-4 h-4 text-[#B8860B]" />
-                  <span className="text-[10px] font-black uppercase tracking-widest text-[#B8860B] italic">Authentic Heritage Design</span>
+              <div className="absolute bottom-8 left-0 right-0 flex justify-center z-10">
+                <div className="flex gap-2 p-1.5 bg-black/5 backdrop-blur-md rounded-full">
+                  {gallery.map((_, i) => (
+                    <button
+                      key={i}
+                      onClick={() => {
+                        setDirection(i > activeImageIndex ? 1 : -1);
+                        setActiveImageIndex(i);
+                      }}
+                      className={`w-2 h-2 rounded-full transition-all duration-500 ${i === activeImageIndex ? 'bg-[#B8860B] w-6' : 'bg-stone-300 hover:bg-stone-400'}`}
+                    />
+                  ))}
                 </div>
               </div>
             </div>
@@ -142,8 +196,11 @@ export default function ProductPage() {
               {gallery.map((img, i) => (
                 <button 
                   key={i}
-                  onClick={() => setActiveImage(img)}
-                  className={`relative w-24 h-32 sm:w-32 sm:h-40 rounded-2xl overflow-hidden border-2 flex-shrink-0 transition-all duration-500 ${activeImage === img ? 'border-[#B8860B] scale-105 shadow-xl' : 'border-stone-100 grayscale hover:grayscale-0 opacity-60 hover:opacity-100'}`}
+                  onClick={() => {
+                    setDirection(i > activeImageIndex ? 1 : -1);
+                    setActiveImageIndex(i);
+                  }}
+                  className={`relative w-24 h-32 sm:w-32 sm:h-40 rounded-2xl overflow-hidden border-2 flex-shrink-0 transition-all duration-500 ${activeImageIndex === i ? 'border-[#B8860B] scale-105 shadow-xl ring-4 ring-[#B8860B]/10' : 'border-stone-100 grayscale hover:grayscale-0 opacity-60 hover:opacity-100'}`}
                 >
                   <Image src={img} fill className="object-cover" alt={`view ${i}`} referrerPolicy="no-referrer" />
                 </button>
