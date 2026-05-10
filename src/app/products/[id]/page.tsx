@@ -57,12 +57,12 @@ export default function ProductPage() {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#FFFEFB]">
         <div className="text-center">
-          <h1 className="luxury-serif text-4xl mb-6">Treasure Not Found</h1>
+          <h1 className="luxury-serif text-4xl mb-6">Product Not Found</h1>
           <button 
             onClick={() => router.push('/')}
             className="text-[#B8860B] font-bold uppercase tracking-widest border-b border-[#B8860B] pb-1"
           >
-            Return to Vault
+            Back to Home
           </button>
         </div>
       </div>
@@ -70,7 +70,7 @@ export default function ProductPage() {
   }
 
   const breadcrumbs = [
-    { name: 'Heritage Collection', href: '/' },
+    { name: 'Home', href: '/' },
     { name: product.category, href: '/' },
     { name: product.name }
   ];
@@ -212,7 +212,7 @@ export default function ProductPage() {
           <div className="flex flex-col">
             <div className="space-y-6 mb-12">
               <div className="flex items-center gap-3">
-                <span className="px-4 py-1.5 bg-stone-100 text-stone-500 text-[10px] font-bold uppercase tracking-widest rounded-full italic">
+                <span className="px-4 py-1.5 bg-stone-100 text-stone-500 text-[10px] font-bold uppercase tracking-widest rounded-full">
                   {product.category}
                 </span>
                 <div className="flex items-center gap-1.5 text-[#B8860B]">
@@ -230,7 +230,7 @@ export default function ProductPage() {
                   ৳{product.price.toLocaleString()}
                 </p>
                 <div className="flex flex-col">
-                  <span className="text-stone-300 line-through text-xl font-light italic">৳{(product.price * 1.5).toLocaleString()}</span>
+                  <span className="text-stone-300 line-through text-xl font-light">৳{(product.price * 1.5).toLocaleString()}</span>
                   <span className="text-emerald-500 text-[10px] font-bold uppercase tracking-widest">Saved ৳{(product.price * 0.5).toLocaleString()}</span>
                 </div>
               </div>
@@ -240,8 +240,8 @@ export default function ProductPage() {
               <div className="flex items-start gap-4 p-6 bg-stone-50 rounded-[2rem] border border-stone-100">
                 <Info className="w-5 h-5 text-[#B8860B] mt-1 flex-shrink-0" />
                 <div>
-                  <h4 className="text-[10px] font-black uppercase tracking-widest mb-2 italic">The Artisan&apos;s Description</h4>
-                  <p className="text-stone-600 font-light italic leading-relaxed">
+                  <h4 className="text-[10px] font-black uppercase tracking-widest mb-2">Description</h4>
+                  <p className="text-stone-600 font-light leading-relaxed">
                     &ldquo;{product.description}&rdquo;
                   </p>
                 </div>
@@ -253,8 +253,8 @@ export default function ProductPage() {
                     <ShieldCheck className="w-5 h-5 text-[#B8860B]" />
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-[9px] font-black uppercase tracking-widest text-stone-400 mb-1">Quality Assurance</span>
-                    <span className="text-xs font-bold text-stone-950 italic">Lifetime Plating Warranty</span>
+                    <span className="text-[9px] font-black uppercase tracking-widest text-stone-400 mb-1">Warranty</span>
+                    <span className="text-xs font-bold text-stone-950">Plating Warranty</span>
                   </div>
                 </div>
                 <div className="flex items-center gap-4 group">
@@ -262,8 +262,8 @@ export default function ProductPage() {
                     <Truck className="w-5 h-5 text-[#B8860B]" />
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-[9px] font-black uppercase tracking-widest text-stone-400 mb-1">Elite Delivery</span>
-                    <span className="text-xs font-bold text-stone-950 italic">Nationwide Concierge</span>
+                    <span className="text-[9px] font-black uppercase tracking-widest text-stone-400 mb-1">Shipping</span>
+                    <span className="text-xs font-bold text-stone-950">Nationwide Delivery</span>
                   </div>
                 </div>
               </div>
@@ -271,7 +271,7 @@ export default function ProductPage() {
 
             {/* Attributes Grid */}
             <div className="space-y-4 mb-12">
-              <h4 className="text-[10px] font-black uppercase tracking-widest text-stone-400 mb-6 italic">Product Specifications</h4>
+              <h4 className="text-[10px] font-black uppercase tracking-widest text-stone-400 mb-6">Specifications</h4>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {[
                   { label: "Base Metal", val: "High Grade Brass Alloy" },
@@ -281,27 +281,27 @@ export default function ProductPage() {
                 ].map((item, idx) => (
                   <div key={idx} className="flex justify-between items-center py-4 px-6 bg-stone-50/50 border border-stone-100 rounded-2xl">
                     <span className="text-[9px] font-bold text-stone-400 uppercase tracking-widest">{item.label}</span>
-                    <span className="text-[11px] font-bold text-stone-950 italic">{item.val}</span>
+                    <span className="text-[11px] font-bold text-stone-950">{item.val}</span>
                   </div>
                 ))}
               </div>
             </div>
 
             {/* Delivery Estimator */}
-            <div className="mb-12 p-6 border border-stone-100 rounded-[2rem] bg-stone-50/30">
-               <div className="flex items-center gap-4 mb-4">
-                  <Calendar className="w-5 h-5 text-[#B8860B]" />
-                  <span className="text-[10px] font-black uppercase tracking-widest italic">Delivery Estimates</span>
-               </div>
-               <div className="flex justify-between text-xs font-bold italic">
-                  <span className="text-stone-500">Dhaka Region:</span>
-                  <span className="text-stone-950">24-48 Hours</span>
-               </div>
-               <div className="flex justify-between text-xs font-bold italic mt-2">
-                  <span className="text-stone-500">Outside Dhaka:</span>
-                  <span className="text-stone-950">3-5 Working Days</span>
-               </div>
-            </div>
+             <div className="mb-12 p-6 border border-stone-100 rounded-[2rem] bg-stone-50/30">
+                <div className="flex items-center gap-4 mb-4">
+                   <Calendar className="w-5 h-5 text-[#B8860B]" />
+                   <span className="text-[10px] font-black uppercase tracking-widest">Delivery Estimates</span>
+                </div>
+                <div className="flex justify-between text-xs font-bold">
+                   <span className="text-stone-500 font-medium">Dhaka Region:</span>
+                   <span className="text-stone-950">24-48 Hours</span>
+                </div>
+                <div className="flex justify-between text-xs font-bold mt-2">
+                   <span className="text-stone-500 font-medium">Outside Dhaka:</span>
+                   <span className="text-stone-950">3-5 Working Days</span>
+                </div>
+             </div>
 
             {/* Actions */}
             <div className="flex flex-col sm:flex-row gap-4 mt-auto">
@@ -309,17 +309,17 @@ export default function ProductPage() {
                 onClick={() => addToCart(product)}
                 className="flex-1 py-6 bg-stone-950 text-white rounded-2xl font-black text-[11px] uppercase tracking-[0.4em] hover:bg-[#B8860B] transition-all flex items-center justify-center gap-4 group active:scale-[0.98] shadow-2xl shadow-stone-950/10"
               >
-                <ShoppingBag className="w-4 h-4 group-hover:scale-110 transition-transform" /> Add to Collection
+                <ShoppingBag className="w-4 h-4 group-hover:scale-110 transition-transform" /> Add to Bag
               </button>
-              <button className="px-10 py-6 border border-stone-200 text-stone-400 rounded-2xl font-black text-[11px] uppercase tracking-[0.4em] hover:border-rose-500 hover:text-rose-500 transition-all flex items-center justify-center gap-3 italic">
+              <button className="px-10 py-6 border border-stone-200 text-stone-400 rounded-2xl font-black text-[11px] uppercase tracking-[0.4em] hover:border-rose-500 hover:text-rose-500 transition-all flex items-center justify-center gap-3">
                 <Heart className="w-4 h-4" /> Wishlist
               </button>
             </div>
 
             {/* Heritage Story Section */}
             <div className="mt-16 pt-16 border-t border-stone-100">
-               <h3 className="luxury-serif text-3xl font-bold mb-8 italic">Heritage Story</h3>
-               <div className="space-y-6 text-stone-600 font-light leading-relaxed italic">
+               <h3 className="luxury-serif text-3xl font-bold mb-8">Product Details</h3>
+               <div className="space-y-6 text-stone-600 font-light leading-relaxed">
                   <p>
                     Every piece in the Nooré collection is born from a legacy that spans over three decades. This {product.name} is not merely an accessory; it is a meticulously crafted artifact that whispers stories of royal Indian courts and Mughal grandeur.
                   </p>
@@ -340,8 +340,8 @@ export default function ProductPage() {
         {/* Similar Items or Story Section? */}
         <section className="mt-40">
            <div className="text-center mb-16">
-              <h2 className="luxury-serif text-4xl font-bold mb-4 italic text-stone-950">Heritage Curation</h2>
-              <p className="text-stone-500 font-light text-lg italic italic">Treasures from the same artisanal dynasty</p>
+              <h2 className="luxury-serif text-4xl font-bold mb-4 text-stone-950">You May Also Like</h2>
+              <p className="text-stone-500 font-light text-lg">Explore more pieces in this category</p>
            </div>
            
            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
@@ -356,7 +356,7 @@ export default function ProductPage() {
                     <Image src={p.image} fill className="object-cover" alt={p.name} referrerPolicy="no-referrer" />
                   </div>
                   <h3 className="luxury-serif text-xl text-stone-950 group-hover:text-[#B8860B] transition-colors">{p.name}</h3>
-                  <p className="text-[#B8860B] font-bold text-sm mt-1 italic">৳{p.price.toLocaleString()}</p>
+                  <p className="text-[#B8860B] font-bold text-sm mt-1">৳{p.price.toLocaleString()}</p>
                 </motion.div>
               ))}
            </div>

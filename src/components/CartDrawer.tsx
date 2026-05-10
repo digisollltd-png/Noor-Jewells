@@ -134,13 +134,13 @@ const CartDrawer: React.FC<CartDrawerProps> = ({
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 }}
                 >
-                  <h2 className="luxury-serif text-4xl font-bold mb-4 italic">
-                    {paymentMethod === 'cod' ? 'Order Reserved!' : 'Majestic Choice!'}
+                  <h2 className="luxury-serif text-4xl font-bold mb-4">
+                    {paymentMethod === 'cod' ? 'Order Received!' : 'Thank You!'}
                   </h2>
                   <p className="text-stone-400 text-lg font-light max-w-sm mx-auto">
                     {paymentMethod === 'cod' 
-                      ? `Your royal treasures are reserved for Cash on Delivery. We'll deliver to ${customerDetails.address}. Please keep the exact amount ready.`
-                      : 'Your royal treasures are being carefully inspected and packed. We will notify you once your elegance is in transit.'}
+                      ? `Your order has been placed for Cash on Delivery. We'll deliver to ${customerDetails.address}.`
+                      : 'Your order is being processed. We will notify you once your items are in transit.'}
                   </p>
                 </motion.div>
                 <motion.div 
@@ -169,8 +169,8 @@ const CartDrawer: React.FC<CartDrawerProps> = ({
                     <Sparkles className="w-8 h-8 text-[#B8860B]" />
                   </div>
                 </div>
-                <h3 className="luxury-serif text-2xl font-bold text-stone-950 mt-12 mb-4 italic">Securing Your Elegance</h3>
-                <p className="text-stone-400 text-sm font-light tracking-wide">Authenticating with the royal vault...</p>
+                <h3 className="luxury-serif text-2xl font-bold text-stone-950 mt-12 mb-4">Processing Your Order</h3>
+                <p className="text-stone-400 text-sm font-light tracking-wide">Finalizing your request...</p>
               </div>
             ) : (
               <>
@@ -186,11 +186,11 @@ const CartDrawer: React.FC<CartDrawerProps> = ({
                     )}
                     <div>
                       <h2 className="luxury-serif text-3xl font-bold text-stone-950">
-                        {checkoutStep === 'cart' ? 'Your Curation' : 'Delivery Details'}
-                      </h2>
-                      <p className="text-stone-400 text-[10px] font-bold uppercase tracking-[0.2em] mt-1 italic text-[#B8860B]">
-                        {checkoutStep === 'cart' ? 'Exclusive Collection' : 'Personal Information'}
-                      </p>
+                      {checkoutStep === 'cart' ? 'Your Shopping Bag' : 'Shipping Details'}
+                    </h2>
+                    <p className="text-stone-400 text-[10px] font-bold uppercase tracking-[0.2em] mt-1 text-[#B8860B]">
+                      {checkoutStep === 'cart' ? 'Order Summary' : 'Please provide your details'}
+                    </p>
                     </div>
                   </div>
                   <button 
@@ -207,10 +207,10 @@ const CartDrawer: React.FC<CartDrawerProps> = ({
                       <div className="w-24 h-24 bg-stone-50 rounded-full flex items-center justify-center mb-6 text-stone-200 border border-stone-100">
                         <ShoppingBag className="w-12 h-12" />
                       </div>
-                      <h3 className="luxury-serif text-2xl text-stone-900 mb-2">No treasures here yet</h3>
-                      <p className="text-stone-400 max-w-xs mx-auto mb-8 font-light italic">Discover our timeless pieces designed for the modern queen.</p>
+                      <h3 className="luxury-serif text-2xl text-stone-900 mb-2">Your bag is empty</h3>
+                      <p className="text-stone-400 max-w-xs mx-auto mb-8 font-light">Explore our collection and add your favorite pieces.</p>
                       <button onClick={onClose} className="px-10 py-4 bg-stone-950 text-white rounded-full font-bold hover:bg-stone-900 transition-all active:scale-95 shadow-xl">
-                        Shop the Collection
+                        Shop Collection
                       </button>
                     </div>
                   ) : checkoutStep === 'cart' ? (
@@ -312,7 +312,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({
                                   >
                                     <Sparkles className="w-5 h-5 text-emerald-500" />
                                   </motion.div>
-                                  Royal Privilege Unlocked!
+                                  Coupon Applied!
                                   
                                   {/* Celebration Particles */}
                                   {confettiParticles.map((_, i) => (
@@ -333,7 +333,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({
                                 </motion.div>
                               )}
                             </AnimatePresence>
-                            <h5 className="text-[10px] font-black uppercase tracking-[0.2em] text-stone-400">Privilege Codes</h5>
+                            <h5 className="text-[10px] font-black uppercase tracking-[0.2em] text-stone-400">Promo Code</h5>
                             <div className="flex gap-2">
                               <motion.div 
                                 className="relative flex-1 group"
@@ -380,7 +380,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({
                             <div className="flex items-center gap-3">
                               <CheckCircle2 className="w-5 h-5" />
                               <div>
-                                <p className="text-[9px] font-black tracking-widest uppercase text-white/70 mb-0.5">Discount Applied</p>
+                                <p className="text-[9px] font-black tracking-widest uppercase text-white/70 mb-0.5">Applied Code</p>
                                 <p className="text-xs font-bold">{activeCoupon.code}</p>
                               </div>
                             </div>
@@ -399,7 +399,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({
                             </div>
                             {activeCoupon && (
                               <div className="flex justify-between text-sm font-bold text-[#B8860B]">
-                                <span>Privilege Discount</span>
+                                <span>Discount Applied</span>
                                 <span>-৳{discount.toLocaleString()}</span>
                               </div>
                             )}
@@ -418,7 +418,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({
                               className={`p-4 rounded-2xl border text-left transition-all ${paymentMethod === 'card' ? 'border-[#B8860B] bg-[#B8860B]/5' : 'border-stone-100 bg-stone-50'}`}
                             >
                               <CreditCard className={`w-5 h-5 mb-2 ${paymentMethod === 'card' ? 'text-[#B8860B]' : 'text-stone-400'}`} />
-                              <p className="text-[10px] font-black uppercase tracking-widest text-stone-950">Elite Card</p>
+                              <p className="text-[10px] font-black uppercase tracking-widest text-stone-950">Debit / Credit Card</p>
                             </button>
                             <button 
                               onClick={() => setPaymentMethod('cod')}
@@ -471,7 +471,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({
                         </section>
 
                         <section className="space-y-4">
-                          <h5 className="text-[10px] font-black uppercase tracking-[0.2em] text-[#B8860B]">Shipping Sanctuary</h5>
+                          <h5 className="text-[10px] font-black uppercase tracking-[0.2em] text-[#B8860B]">Shipping Address</h5>
                           <div className="space-y-4">
                             <div className="relative group">
                               <MapPin className="absolute left-4 top-4 w-4 h-4 text-stone-300 group-focus-within:text-[#B8860B] transition-colors" />
@@ -517,7 +517,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({
                   <div className="p-8 bg-white border-t border-stone-200 shadow-[0_-10px_40px_rgba(0,0,0,0.05)] space-y-6">
                     <div className="flex justify-between items-end">
                       <div>
-                        <p className="text-[9px] font-black uppercase tracking-[0.3em] text-[#B8860B] mb-1">Total Investment</p>
+                        <p className="text-[9px] font-black uppercase tracking-[0.3em] text-[#B8860B] mb-1">Order Total</p>
                         <motion.span 
                           key={total}
                           initial={{ opacity: 0, y: 10 }}
@@ -547,9 +547,9 @@ const CartDrawer: React.FC<CartDrawerProps> = ({
                           {checkoutStep === 'cart' ? (
                             <>Proceed to Checkout</>
                           ) : paymentMethod === 'card' ? (
-                            <><CreditCard className="w-4 h-4 text-[#B8860B]" /> Complete Acquisition</>
+                            <><CreditCard className="w-4 h-4 text-[#B8860B]" /> Place Order</>
                           ) : (
-                            <><Banknote className="w-4 h-4 text-[#B8860B]" /> Reserve for Delivery</>
+                            <><Banknote className="w-4 h-4 text-[#B8860B]" /> Place Order</>
                           )}
                           <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                         </>

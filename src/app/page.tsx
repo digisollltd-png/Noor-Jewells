@@ -73,110 +73,59 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-[#FFFEFB]">
-      <main className="pt-24 pb-24">
-        {/* Luxury Jewelry Hero */}
-        <div className="max-w-[1440px] mx-auto px-4 md:px-6 mb-8">
-          <motion.section 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1.5 }}
-            className="relative h-[80vh] min-h-[600px] overflow-hidden rounded-2xl md:rounded-[4rem] bg-stone-100 shadow-2xl flex flex-col md:flex-row"
-          >
-            {/* Text Content Area */}
-            <div className="w-full md:w-1/2 h-[50%] md:h-full flex flex-col justify-center px-6 md:px-12 lg:px-16 xl:px-24 relative z-20 bg-[#F9F8F6]">
-               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-              >
-                <div className="flex items-center gap-3 mb-6 md:mb-8">
-                  <span className="w-8 h-[1px] bg-[#B8860B]"></span>
-                  <span className="text-[#B8860B] font-bold uppercase tracking-[0.3em] text-[8px] md:text-[10px] italic">ESTD 1992 | ROYAL CURATION</span>
-                </div>
-                
-                <h1 className="luxury-serif text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-stone-900 mb-6 md:mb-8 tracking-tight leading-[1.1]">
-                  Timeless <br/>
-                  <span className="italic font-light text-[#B8860B]">Heritage</span>
-                </h1>
+      <main className="pb-24">
+        {/* Simplified Product Focus Hero */}
+        <motion.section 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1.5 }}
+          className="relative h-[90vh] overflow-hidden bg-white"
+        >
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={heroIndex}
+              initial={{ opacity: 0, scale: 1.02 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 1.2, ease: "easeOut" }}
+              className="absolute inset-0"
+            >
+              <Image 
+                src={heroProducts[heroIndex].image} 
+                fill
+                className="object-cover"
+                alt="Product Showcase"
+                referrerPolicy="no-referrer"
+                priority
+              />
+              {/* Subtle Overlay to ensure visibility if needed, but keeping it minimal */}
+              <div className="absolute inset-0 bg-stone-900/5" />
+            </motion.div>
+          </AnimatePresence>
 
-                <p className="text-stone-600 text-sm md:text-lg mb-8 md:mb-12 font-light leading-relaxed max-w-md italic">
-                  Experience the allure of royal craftsmanship with our meticulously curated imitation jewelry collection, delivered across Bangladesh.
-                </p>
+          {/* Minimal Navigation Overlay */}
+          <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex gap-4 z-30">
+            {heroProducts.map((_, i) => (
+              <button 
+                key={i}
+                onClick={() => setHeroIndex(i)}
+                className={`w-2 h-2 rounded-full transition-all duration-500 ${heroIndex === i ? 'bg-stone-950 scale-125' : 'bg-stone-300 hover:bg-stone-400'}`}
+              />
+            ))}
+          </div>
 
-                <div className="flex flex-col sm:flex-row gap-4 md:gap-6">
-                  <button 
-                    onClick={() => document.getElementById('catalog')?.scrollIntoView({ behavior: 'smooth' })}
-                    className="group relative px-8 py-4 md:px-10 md:py-5 bg-stone-950 text-white rounded-full font-black text-[10px] uppercase tracking-[0.3em] transition-all hover:scale-105 hover:bg-[#B8860B] flex items-center justify-center gap-4 overflow-hidden"
-                  >
-                    <span className="relative z-10">Shop Collection</span>
-                    <ArrowRight className="w-4 h-4 md:w-5 md:h-5 relative z-10 group-hover:translate-x-1 transition-transform" />
-                  </button>
-                  
-                  <button className="px-8 py-4 md:px-10 md:py-5 border border-stone-300 text-stone-900 rounded-full font-bold text-[10px] uppercase tracking-[0.3em] hover:bg-stone-200 transition-all text-center">
-                    Virtual Tour
-                  </button>
-                </div>
-              </motion.div>
-            </div>
-
-            {/* Image Area - Extreme focus and clarity */}
-            <div className="w-full md:w-1/2 h-[50%] md:h-full relative overflow-hidden bg-white">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={heroIndex}
-                  initial={{ opacity: 0, scale: 1.05 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 1 }}
-                  transition={{ duration: 1, ease: "easeOut" }}
-                  className="absolute inset-0 cursor-pointer"
-                  onClick={() => router.push(`/products/${heroProducts[heroIndex].id}`)}
-                >
-                  <Image 
-                    src={heroProducts[heroIndex].image} 
-                    fill
-                    className="object-cover md:object-center"
-                    alt="Luxury Jewelry"
-                    referrerPolicy="no-referrer"
-                    priority
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                  />
-                  {/* Subtle fade to join with text side on desktop */}
-                  <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-[#F9F8F6] to-transparent hidden md:block" />
-                </motion.div>
-              </AnimatePresence>
-
-              {/* Progress Pillar */}
-              <div className="absolute bottom-8 right-8 md:bottom-12 md:right-12 flex gap-2 md:gap-3 z-30">
-                {heroProducts.map((_, i) => (
-                  <button 
-                    key={i}
-                    onClick={() => setHeroIndex(i)}
-                    className={`h-1 transition-all duration-500 rounded-full ${heroIndex === i ? 'w-8 md:w-12 bg-[#B8860B]' : 'w-2 md:w-4 bg-stone-300/50'}`}
-                  />
-                ))}
-              </div>
-            </div>
-
-            {/* Floating Trust Elements */}
-            <div className="absolute top-12 right-12 hidden xl:flex flex-col gap-8 z-30">
-              <div className="flex items-center gap-4 text-stone-400 group cursor-default">
-                <div className="w-10 h-10 rounded-full border border-stone-200 flex items-center justify-center group-hover:border-[#B8860B] transition-colors">
-                  <Star className="w-4 h-4 group-hover:text-[#B8860B]" />
-                </div>
-                <span className="text-[9px] font-bold uppercase tracking-widest leading-none">Nationwide <br/> Shipping</span>
-              </div>
-              <div className="flex items-center gap-4 text-stone-400 group cursor-default">
-                <div className="w-10 h-10 rounded-full border border-stone-200 flex items-center justify-center group-hover:border-[#B8860B] transition-colors">
-                  <Gem className="w-4 h-4 group-hover:text-[#B8860B]" />
-                </div>
-                <span className="text-[9px] font-bold uppercase tracking-widest leading-none">Heritage <br/> Design</span>
-              </div>
-            </div>
-          </motion.section>
-        </div>
+          <div className="absolute bottom-12 right-12 z-30">
+             <button 
+                onClick={() => document.getElementById('catalog')?.scrollIntoView({ behavior: 'smooth' })}
+                className="p-6 bg-white/90 backdrop-blur-sm rounded-full shadow-lg hover:bg-white transition-all group"
+             >
+                <ArrowRight className="w-6 h-6 text-stone-900 group-hover:translate-x-1 transition-transform" />
+             </button>
+          </div>
+        </motion.section>
 
         {/* Product Catalog */}
-        <div id="catalog" className="max-w-[1440px] mx-auto px-4 sm:px-6 mb-20 scroll-mt-32">
+        <div id="catalog" className="max-w-[1440px] mx-auto px-4 sm:px-6 py-32 mb-20 scroll-mt-32">
           <div className="flex flex-col mb-16">
             <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-8">
               <div className="max-w-xl">
@@ -186,9 +135,9 @@ export default function Home() {
                   viewport={{ once: true }}
                   className="luxury-serif text-5xl md:text-6xl font-bold text-stone-950 mb-6"
                 >
-                  The Artisan&apos;s <br/><span className="italic font-light text-stone-500">Vault</span>
+                  Our <span className="italic font-light text-stone-500">Collection</span>
                 </motion.h2>
-                <p className="text-stone-600 font-light text-lg italic">Explore our meticulously curated selection of imitation jewelry, where every piece is a tribute to royal Indian heritage.</p>
+                <p className="text-stone-600 font-light text-lg">Explore our range of premium imitation jewelry, blending tradition with modern elegance.</p>
               </div>
 
               <div className="flex items-center gap-4">
@@ -348,7 +297,7 @@ export default function Home() {
         
         <InstagramFeed />
 
-        {/* Newsletter / Club */}
+        {/* Newsletter Section */}
         <section className="max-w-4xl mx-auto px-6 py-40 text-center">
            <motion.div
              initial={{ opacity: 0, scale: 0.9 }}
@@ -357,21 +306,20 @@ export default function Home() {
              className="space-y-12"
            >
               <h2 className="luxury-serif text-5xl md:text-6xl font-bold text-stone-950 leading-tight">
-                Join the <span className="text-[#B8860B] italic">Nooré Elite</span>
+                Stay <span className="text-[#B8860B] italic">Updated</span>
               </h2>
-              <p className="text-stone-500 font-light text-xl max-w-xl mx-auto leading-relaxed italic">Receive invitations to private collection launches and heritage stories from our master artisans.</p>
+              <p className="text-stone-500 font-light text-xl max-w-xl mx-auto leading-relaxed">Subscribe to receive updates on our latest collections and exclusive offers.</p>
               
               <div className="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto">
                 <input 
                   type="email" 
-                  placeholder="Your Royal Address (Email)" 
-                  className="flex-1 px-8 py-5 bg-white border border-stone-200 rounded-full focus:outline-none focus:ring-2 focus:ring-[#B8860B]/20 italic"
+                  placeholder="Your Email Address" 
+                  className="flex-1 px-8 py-5 bg-white border border-stone-200 rounded-full focus:outline-none focus:ring-2 focus:ring-[#B8860B]/20"
                 />
                 <button className="px-10 py-5 bg-stone-950 text-white rounded-full font-black text-[10px] uppercase tracking-widest hover:bg-[#B8860B] transition-all shadow-xl">
-                  Enlist Now
+                  Subscribe
                 </button>
               </div>
-              <p className="text-[10px] font-bold text-stone-300 uppercase tracking-widest italic">Respecting your privacy with the utmost dignity</p>
            </motion.div>
         </section>
       </main>
@@ -431,23 +379,23 @@ export default function Home() {
              <ul className="space-y-4 text-sm font-medium text-stone-500">
                <li className="hover:text-[#B8860B] transition-colors cursor-pointer capitalize italic">Track Order</li>
                <li className="hover:text-[#B8860B] transition-colors cursor-pointer capitalize italic">Shipping Policy</li>
-               <li className="hover:text-[#B8860B] transition-colors cursor-pointer capitalize italic">Royal Returns</li>
+               <li className="hover:text-[#B8860B] transition-colors cursor-pointer capitalize">Returns Policy</li>
                <li className="hover:text-[#B8860B] transition-colors cursor-pointer capitalize italic">Jewelry Care</li>
              </ul>
           </div>
 
           <div>
-             <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-stone-950 mb-8 italic">Contact</h4>
-             <p className="text-stone-500 text-sm font-light leading-relaxed italic mb-2">Concierge: hello@noorejewells.com</p>
-             <p className="text-stone-500 text-sm font-light leading-relaxed italic">WhatsApp: +880 1700 000000</p>
+             <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-stone-950 mb-8">Contact</h4>
+             <p className="text-stone-500 text-sm font-light leading-relaxed mb-2">Email: hello@noorejewells.com</p>
+             <p className="text-stone-500 text-sm font-light leading-relaxed">WhatsApp: +880 1303 607085</p>
           </div>
         </div>
         
         <div className="max-w-[1440px] mx-auto px-12 pt-24 mt-24 border-t border-stone-200 flex flex-col md:flex-row justify-between items-center gap-8">
-           <p className="text-[10px] font-bold text-stone-500 uppercase tracking-widest italic">© 2026 NOORÉ JEWELLS. ALL ROYAL RIGHTS RESERVED.</p>
+           <p className="text-[10px] font-bold text-stone-500 uppercase tracking-widest">© 2026 NOORÉ JEWELLS. ALL RIGHTS RESERVED.</p>
            <div className="flex gap-12 text-[10px] font-bold text-stone-500 uppercase tracking-widest italic">
-             <span className="hover:text-stone-950 cursor-pointer">Privacy Palace</span>
-             <span className="hover:text-stone-950 cursor-pointer">Terms of Majesty</span>
+             <span className="hover:text-stone-950 cursor-pointer">Privacy Policy</span>
+             <span className="hover:text-stone-950 cursor-pointer">Terms of Service</span>
            </div>
         </div>
       </footer>

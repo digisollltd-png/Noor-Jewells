@@ -56,7 +56,7 @@ export default function InstagramFeed() {
             className="flex items-center gap-3 text-[#B8860B] mb-4"
           >
             <Instagram className="w-5 h-5" />
-            <span className="text-[10px] font-black uppercase tracking-[0.4em] italic">Join the Nooré Circle</span>
+            <span className="text-[10px] font-black uppercase tracking-[0.4em]">Follow Us</span>
           </motion.div>
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}
@@ -65,16 +65,16 @@ export default function InstagramFeed() {
             transition={{ delay: 0.1 }}
             className="luxury-serif text-4xl md:text-5xl font-bold text-stone-950 leading-tight mb-6"
           >
-            Worn by the <span className="italic font-light text-stone-500">Radiant</span>
+            Community <span className="italic font-light text-stone-500">Gallery</span>
           </motion.h2>
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            className="text-stone-600 font-light text-lg italic"
+            className="text-stone-600 font-light text-lg"
           >
-            Tag @NooréCuration to be featured in our heritage gallery.
+            Tag your photos to be featured in our gallery.
           </motion.p>
         </div>
         

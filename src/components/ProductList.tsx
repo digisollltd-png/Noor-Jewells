@@ -94,7 +94,7 @@ const ProductList: React.FC<ProductListProps> = ({ products, onAddToCart, onProd
                 ৳{product.price.toLocaleString()}
               </p>
             </div>
-            <p className="text-stone-600 text-[10px] sm:text-xs font-light leading-relaxed line-clamp-1 italic mb-1 sm:mb-2">
+            <p className="text-stone-600 text-[10px] sm:text-xs font-light leading-relaxed line-clamp-1 mb-1 sm:mb-2">
               {product.description}
             </p>
             

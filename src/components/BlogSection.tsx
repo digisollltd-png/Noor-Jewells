@@ -35,7 +35,7 @@ export default function BlogSection() {
               href="/blog"
               className="group flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.3em] text-stone-950 hover:text-[#B8860B] transition-colors"
             >
-              Enter the Library <ArrowRight className="w-4 h-4 group-hover:translate-x-2 transition-transform" />
+              View Journal <ArrowRight className="w-4 h-4 group-hover:translate-x-2 transition-transform" />
             </Link>
           </motion.div>
         </div>
@@ -74,12 +74,12 @@ export default function BlogSection() {
                   <h3 className="luxury-serif text-2xl font-bold text-stone-950 group-hover:text-[#B8860B] transition-colors leading-tight">
                     {post.title}
                   </h3>
-                  <p className="text-stone-600 text-sm font-light leading-relaxed line-clamp-2 italic">
+                  <p className="text-stone-600 text-sm font-light leading-relaxed line-clamp-2">
                     {post.excerpt}
                   </p>
                   <div className="pt-4">
                     <span className="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-[#B8860B]">
-                      Read Story <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
+                      Read More <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
                     </span>
                   </div>
                 </div>
