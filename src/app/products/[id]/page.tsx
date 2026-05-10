@@ -7,15 +7,12 @@ import { motion, AnimatePresence } from 'motion/react';
 import { 
   ArrowLeft, 
   ShoppingBag, 
-  Heart, 
   ShieldCheck, 
   Truck, 
   Star, 
   Gem, 
   Sparkles, 
   ChevronRight,
-  ChevronLeft,
-  Share2,
   Info,
   Calendar
 } from 'lucide-react';
@@ -28,29 +25,18 @@ export default function ProductPage() {
   const params = useParams();
   const router = useRouter();
   const { addToCart } = useShop();
-  const [activeImageIndex, setActiveImageIndex] = useState(0);
-  const [isLiked, setIsLiked] = useState(false);
-  const [direction, setDirection] = useState(0);
+  const [mousePos, setMousePos] = useState({ x: 50, y: 50 });
+  const [isZooming, setIsZooming] = useState(false);
 
   const product = useMemo(() => {
     return PRODUCTS.find(p => p.id === Number(params.id));
   }, [params.id]);
 
-  // Mock alternate views
-  const gallery = useMemo(() => [
-    product.image,
-    "https://images.unsplash.com/photo-1619119069152-a2b331eb392a?q=80&w=2070&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?q=80&w=1974&auto=format&fit=crop"
-  ], [product.image]);
-
-  const nextImage = () => {
-    setDirection(1);
-    setActiveImageIndex((prev) => (prev + 1) % gallery.length);
-  };
-
-  const prevImage = () => {
-    setDirection(-1);
-    setActiveImageIndex((prev) => (prev - 1 + gallery.length) % gallery.length);
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
+    const x = ((e.clientX - left) / width) * 100;
+    const y = ((e.clientY - top) / height) * 100;
+    setMousePos({ x, y });
   };
 
   if (!product) {
@@ -102,109 +88,34 @@ export default function ProductPage() {
           
           {/* Gallery Section - Sticky on Desktop */}
           <div className="lg:sticky lg:top-32 h-fit space-y-8">
-            <div className="relative aspect-[4/5] bg-stone-50 rounded-[3rem] overflow-hidden group shadow-sm border border-stone-100">
-              <AnimatePresence mode="popLayout" initial={false} custom={direction}>
-                <motion.div
-                  key={activeImageIndex}
-                  custom={direction}
-                  variants={{
-                    enter: (direction: number) => ({
-                      x: direction > 0 ? '100%' : '-100%',
-                      opacity: 0,
-                      scale: 0.95
-                    }),
-                    center: {
-                      zIndex: 1,
-                      x: 0,
-                      opacity: 1,
-                      scale: 1
-                    },
-                    exit: (direction: number) => ({
-                      zIndex: 0,
-                      x: direction < 0 ? '100%' : '-100%',
-                      opacity: 0,
-                      scale: 0.95
-                    })
-                  }}
-                  initial="enter"
-                  animate="center"
-                  exit="exit"
-                  transition={{
-                    x: { type: "spring", stiffness: 300, damping: 30 },
-                    opacity: { duration: 0.4 },
-                    scale: { duration: 0.4 }
-                  }}
-                  className="w-full h-full relative p-8 sm:p-12 flex items-center justify-center"
-                >
-                  <Image 
-                    src={gallery[activeImageIndex]} 
-                    alt={product.name} 
-                    fill
-                    className="object-contain"
-                    priority
-                    referrerPolicy="no-referrer"
-                  />
-                </motion.div>
-              </AnimatePresence>
-
-              {/* Navigation Arrows */}
-              <div className="absolute inset-x-4 top-1/2 -translate-y-1/2 flex justify-between pointer-events-none z-10">
-                <button 
-                  onClick={prevImage}
-                  className="w-12 h-12 rounded-full bg-white/40 backdrop-blur-md border border-white/50 flex items-center justify-center text-stone-900 hover:bg-white hover:scale-110 active:scale-95 transition-all shadow-xl pointer-events-auto"
-                >
-                  <ChevronLeft className="w-6 h-6" />
-                </button>
-                <button 
-                  onClick={nextImage}
-                  className="w-12 h-12 rounded-full bg-white/40 backdrop-blur-md border border-white/50 flex items-center justify-center text-stone-900 hover:bg-white hover:scale-110 active:scale-95 transition-all shadow-xl pointer-events-auto"
-                >
-                  <ChevronRight className="w-6 h-6" />
-                </button>
+            <div 
+              className="relative aspect-[4/5] bg-stone-50 rounded-[3rem] overflow-hidden cursor-zoom-in shadow-sm border border-stone-100 group"
+              onMouseMove={handleMouseMove}
+              onMouseEnter={() => setIsZooming(true)}
+              onMouseLeave={() => setIsZooming(false)}
+            >
+              <motion.div
+                className="w-full h-full relative"
+                animate={{
+                  scale: isZooming ? 2 : 1,
+                  transformOrigin: `${mousePos.x}% ${mousePos.y}%`
+                }}
+                transition={{ type: "spring", stiffness: 150, damping: 25, mass: 0.5 }}
+              >
+                <Image 
+                  src={product.image} 
+                  alt={product.name} 
+                  fill
+                  className="object-contain p-8 sm:p-12"
+                  priority
+                  referrerPolicy="no-referrer"
+                />
+              </motion.div>
+              
+              {/* Minimal Zoom Indicator */}
+              <div className={`absolute bottom-8 right-8 px-4 py-2 bg-white/80 backdrop-blur-md rounded-full text-[9px] font-bold uppercase tracking-widest text-stone-400 transition-opacity duration-300 ${isZooming ? 'opacity-0' : 'opacity-100'}`}>
+                Hover to focus
               </div>
-
-              <div className="absolute top-8 right-8 flex flex-col gap-4 z-10">
-                <button 
-                  onClick={() => setIsLiked(!isLiked)}
-                  className={`w-12 h-12 rounded-full border flex items-center justify-center transition-all ${isLiked ? 'bg-rose-50 border-rose-100 text-rose-500 shadow-lg' : 'bg-white/80 border-stone-200 text-stone-400 hover:text-stone-900 backdrop-blur-md'}`}
-                >
-                  <Heart className={`w-5 h-5 ${isLiked ? 'fill-current' : ''}`} />
-                </button>
-                <button className="w-12 h-12 rounded-full bg-white/80 border border-stone-200 text-stone-400 hover:text-stone-900 backdrop-blur-md flex items-center justify-center transition-all">
-                  <Share2 className="w-5 h-5" />
-                </button>
-              </div>
-
-              <div className="absolute bottom-8 left-0 right-0 flex justify-center z-10">
-                <div className="flex gap-2 p-1.5 bg-black/5 backdrop-blur-md rounded-full">
-                  {gallery.map((_, i) => (
-                    <button
-                      key={i}
-                      onClick={() => {
-                        setDirection(i > activeImageIndex ? 1 : -1);
-                        setActiveImageIndex(i);
-                      }}
-                      className={`w-2 h-2 rounded-full transition-all duration-500 ${i === activeImageIndex ? 'bg-[#B8860B] w-6' : 'bg-stone-300 hover:bg-stone-400'}`}
-                    />
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Thumbnail Navigation */}
-            <div className="flex gap-4 sm:gap-6 overflow-x-auto no-scrollbar pb-2">
-              {gallery.map((img, i) => (
-                <button 
-                  key={i}
-                  onClick={() => {
-                    setDirection(i > activeImageIndex ? 1 : -1);
-                    setActiveImageIndex(i);
-                  }}
-                  className={`relative w-24 h-32 sm:w-32 sm:h-40 rounded-2xl overflow-hidden border-2 flex-shrink-0 transition-all duration-500 ${activeImageIndex === i ? 'border-[#B8860B] scale-105 shadow-xl ring-4 ring-[#B8860B]/10' : 'border-stone-100 grayscale hover:grayscale-0 opacity-60 hover:opacity-100'}`}
-                >
-                  <Image src={img} fill className="object-cover" alt={`view ${i}`} referrerPolicy="no-referrer" />
-                </button>
-              ))}
             </div>
           </div>
 
@@ -304,15 +215,12 @@ export default function ProductPage() {
              </div>
 
             {/* Actions */}
-            <div className="flex flex-col sm:flex-row gap-4 mt-auto">
+            <div className="flex gap-4 mt-auto">
               <button 
                 onClick={() => addToCart(product)}
                 className="flex-1 py-6 bg-stone-950 text-white rounded-2xl font-black text-[11px] uppercase tracking-[0.4em] hover:bg-[#B8860B] transition-all flex items-center justify-center gap-4 group active:scale-[0.98] shadow-2xl shadow-stone-950/10"
               >
                 <ShoppingBag className="w-4 h-4 group-hover:scale-110 transition-transform" /> Add to Bag
-              </button>
-              <button className="px-10 py-6 border border-stone-200 text-stone-400 rounded-2xl font-black text-[11px] uppercase tracking-[0.4em] hover:border-rose-500 hover:text-rose-500 transition-all flex items-center justify-center gap-3">
-                <Heart className="w-4 h-4" /> Wishlist
               </button>
             </div>
 

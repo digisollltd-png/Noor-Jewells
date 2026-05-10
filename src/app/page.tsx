@@ -3,22 +3,17 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { useParams, useRouter } from 'next/navigation';
-import { ArrowRight, Search, X, Sparkles, Gem, Star, ShieldCheck, SlidersHorizontal, ChevronDown, Instagram, Facebook, Twitter } from 'lucide-react';
+import { ArrowRight, Instagram, Facebook, Twitter } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Product, CartItem, Coupon } from '../types';
 import ProductList from '../components/ProductList';
-import ProductModal from '../components/ProductModal';
-import InstagramFeed from '../components/InstagramFeed';
-import BlogSection from '../components/BlogSection';
 import ScrollToTop from '../components/ScrollToTop';
 import { PRODUCTS } from '../constants';
 
 import { useShop } from '../context/ShopContext';
 
 export default function Home() {
-  const router = useRouter();
   const { 
     addToCart, 
     searchQuery,
@@ -28,12 +23,6 @@ export default function Home() {
   const [activeCategory, setActiveCategory] = useState('All');
   const [heroIndex, setHeroIndex] = useState(0);
   
-  // New States for Filter/Sort
-  const maxPriceLimit = useMemo(() => Math.ceil(Math.max(...PRODUCTS.map(p => p.price))), []);
-  const [priceRange, setPriceRange] = useState(maxPriceLimit);
-  const [sortBy, setSortBy] = useState('newest');
-  const [showFilters, setShowFilters] = useState(false);
-
   const heroProducts = useMemo(() => PRODUCTS.slice(0, 4), []);
 
   useEffect(() => {
@@ -48,22 +37,13 @@ export default function Home() {
       const matchesCategory = activeCategory === 'All' || p.category === activeCategory;
       const matchesSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
                            p.description.toLowerCase().includes(searchQuery.toLowerCase());
-      const matchesPrice = p.price <= priceRange;
-      return matchesCategory && matchesSearch && matchesPrice;
+      return matchesCategory && matchesSearch;
     });
 
-    if (sortBy === 'price-low') {
-      result.sort((a, b) => a.price - b.price);
-    } else if (sortBy === 'price-high') {
-      result.sort((a, b) => b.price - a.price);
-    } else if (sortBy === 'newest') {
-      result.sort((a, b) => b.id - a.id);
-    } else if (sortBy === 'name') {
-      result.sort((a, b) => a.name.localeCompare(b.name));
-    }
+    result.sort((a, b) => b.id - a.id);
 
     return result;
-  }, [activeCategory, searchQuery, priceRange, sortBy]);
+  }, [activeCategory, searchQuery]);
 
   const categories = useMemo(() => ['All', ...Array.from(new Set(PRODUCTS.map(p => p.category)))], []);
 
@@ -124,136 +104,27 @@ export default function Home() {
           </div>
         </motion.section>
 
-        {/* Product Catalog */}
-        <div id="catalog" className="max-w-[1440px] mx-auto px-4 sm:px-6 py-32 mb-20 scroll-mt-32">
-          <div className="flex flex-col mb-16">
-            <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-8">
-              <div className="max-w-xl">
-                <motion.h2 
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  className="luxury-serif text-5xl md:text-6xl font-bold text-stone-950 mb-6"
-                >
-                  Our <span className="italic font-light text-stone-500">Collection</span>
-                </motion.h2>
-                <p className="text-stone-600 font-light text-lg">Explore our range of premium imitation jewelry, blending tradition with modern elegance.</p>
-              </div>
-
-              <div className="flex items-center gap-4">
-                <button 
-                  onClick={() => setShowFilters(!showFilters)}
-                  className={`flex items-center gap-3 px-6 py-4 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all border ${
-                    showFilters ? 'bg-stone-950 text-white border-stone-950 shadow-xl' : 'bg-white text-stone-950 border-stone-200 hover:border-stone-950'
+        {/* Simplified Product Catalog */}
+        <div id="catalog" className="max-w-[1440px] mx-auto px-4 sm:px-6 py-24 scroll-mt-24">
+          <div className="flex flex-wrap justify-center gap-4 mb-20">
+             {categories.map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => setActiveCategory(cat)}
+                  className={`px-8 py-3 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] transition-all border ${
+                    activeCategory === cat 
+                      ? 'bg-stone-950 text-white border-stone-950 shadow-md' 
+                      : 'bg-white text-stone-400 border-stone-100 hover:border-stone-950 hover:text-stone-950'
                   }`}
                 >
-                  <SlidersHorizontal className="w-4 h-4" />
-                  {showFilters ? 'Hide Filters' : 'Filter & Sort'}
+                  {cat}
                 </button>
-              </div>
-            </div>
-
-            <AnimatePresence>
-              {showFilters && (
-                <motion.div 
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: 'auto' }}
-                  exit={{ opacity: 0, height: 0 }}
-                  className="overflow-hidden mb-12"
-                >
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-8 p-8 bg-stone-50 rounded-[2.5rem] border border-stone-100 shadow-inner">
-                    {/* Category Selection */}
-                    <div className="space-y-4">
-                      <h4 className="text-[10px] font-black uppercase tracking-widest text-stone-400 italic">By Collection</h4>
-                      <div className="flex flex-wrap gap-2">
-                        {categories.map((cat) => (
-                          <button
-                            key={cat}
-                            onClick={() => setActiveCategory(cat)}
-                            className={`px-5 py-2.5 rounded-xl text-[9px] font-bold uppercase tracking-widest transition-all ${
-                              activeCategory === cat 
-                                ? 'bg-[#B8860B] text-white shadow-lg' 
-                                : 'bg-white text-stone-600 border border-stone-100 hover:border-[#B8860B]'
-                            }`}
-                          >
-                            {cat}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Price Range Slider */}
-                    <div className="space-y-6">
-                      <div className="flex justify-between items-center">
-                        <h4 className="text-[10px] font-black uppercase tracking-widest text-stone-400 italic">Price Ceiling</h4>
-                        <span className="text-sm font-bold text-[#B8860B]">৳{priceRange.toLocaleString()}</span>
-                      </div>
-                      <div className="relative pt-2">
-                        <input 
-                          type="range" 
-                          min="0" 
-                          max={maxPriceLimit} 
-                          value={priceRange}
-                          onChange={(e) => setPriceRange(Number(e.target.value))}
-                          className="w-full h-1.5 bg-stone-200 rounded-lg appearance-none cursor-pointer accent-[#B8860B]"
-                        />
-                        <div className="flex justify-between mt-4 text-[9px] font-bold text-stone-400 uppercase tracking-tighter">
-                          <span>৳0</span>
-                          <span>Maximum: ৳{maxPriceLimit.toLocaleString()}</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Sort By Dropdown */}
-                    <div className="space-y-4">
-                      <h4 className="text-[10px] font-black uppercase tracking-widest text-stone-400 italic">Arrange By</h4>
-                      <div className="relative group">
-                        <select 
-                          value={sortBy}
-                          onChange={(e) => setSortBy(e.target.value)}
-                          className="w-full appearance-none bg-white border border-stone-100 rounded-xl px-6 py-4 text-xs font-bold text-stone-900 focus:outline-none focus:ring-2 focus:ring-[#B8860B]/20 cursor-pointer pr-12"
-                        >
-                          <option value="newest">Newest Arrivals</option>
-                          <option value="price-low">Price: Low to High</option>
-                          <option value="price-high">Price: High to Low</option>
-                          <option value="name">Alphabetical (A-Z)</option>
-                        </select>
-                        <ChevronDown className="absolute right-6 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400 pointer-events-none group-hover:text-[#B8860B] transition-colors" />
-                      </div>
-                    </div>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-            
-            {!showFilters && (
-              <div className="flex flex-wrap gap-3 mb-8">
-                 {categories.map((cat) => (
-                    <button
-                      key={cat}
-                      onClick={() => setActiveCategory(cat)}
-                      className={`px-6 py-2.5 rounded-full text-[9px] font-bold uppercase tracking-widest transition-all ${
-                        activeCategory === cat 
-                          ? 'bg-stone-950 text-white shadow-md' 
-                          : 'bg-stone-100 text-stone-500 hover:bg-stone-200'
-                      }`}
-                    >
-                      {cat}
-                    </button>
-                  ))}
-              </div>
-            )}
+              ))}
           </div>
 
           {filteredProducts.length === 0 ? (
             <div className="py-24 text-center">
-              <h3 className="luxury-serif text-3xl text-stone-400 mb-4 italic">No treasures matched your quest</h3>
-              <button 
-                onClick={() => { setSearchQuery(''); setActiveCategory('All'); setPriceRange(maxPriceLimit); setSortBy('newest'); }}
-                className="text-[#B8860B] font-bold uppercase tracking-widest border-b border-[#B8860B] pb-1"
-              >
-                Reset Selection
-              </button>
+              <h3 className="text-xl text-stone-400 font-light">No products found</h3>
             </div>
           ) : (
             <ProductList 
@@ -261,67 +132,7 @@ export default function Home() {
               onAddToCart={handleAddToCart}
             />
           )}
-
-          {/* Featured Collections Teaser */}
-          <section className="mt-48 grid grid-cols-1 md:grid-cols-2 gap-12">
-            {[
-              { title: "The Bridal Edit", img: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?q=80&w=2070&auto=format&fit=crop", dark: true },
-              { title: "Daily Radiance", img: "https://images.unsplash.com/photo-1601121141461-9d6647bca1ed?q=80&w=2070&auto=format&fit=crop", dark: false }
-            ].map((collection, idx) => (
-              <motion.div 
-                key={idx}
-                whileHover={{ y: -10 }}
-                className="relative h-[600px] rounded-[3rem] overflow-hidden group cursor-pointer"
-              >
-                <Image 
-                  src={collection.img} 
-                  fill
-                  className="object-cover grayscale-[20%] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-[1.5s]" 
-                  alt={collection.title}
-                  referrerPolicy="no-referrer"
-                />
-                <div className="absolute inset-0 bg-stone-950/20 group-hover:bg-stone-950/10 transition-all duration-500" />
-                <div className="absolute inset-0 flex flex-col items-center justify-center text-white p-12 text-center">
-                  <h3 className="luxury-serif text-5xl font-bold mb-6 italic">{collection.title}</h3>
-                  <p className="text-white/80 max-w-xs mb-10 font-light text-lg">Curated stories told through silver, gold, and stone.</p>
-                  <button className="flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.4em] border-b border-white pb-2 hover:gap-6 transition-all">
-                    Explore Stories <ArrowRight className="w-4 h-4" />
-                  </button>
-                </div>
-              </motion.div>
-            ))}
-          </section>
         </div>
-
-        <BlogSection />
-        
-        <InstagramFeed />
-
-        {/* Newsletter Section */}
-        <section className="max-w-4xl mx-auto px-6 py-40 text-center">
-           <motion.div
-             initial={{ opacity: 0, scale: 0.9 }}
-             whileInView={{ opacity: 1, scale: 1 }}
-             viewport={{ once: true }}
-             className="space-y-12"
-           >
-              <h2 className="luxury-serif text-5xl md:text-6xl font-bold text-stone-950 leading-tight">
-                Stay <span className="text-[#B8860B] italic">Updated</span>
-              </h2>
-              <p className="text-stone-500 font-light text-xl max-w-xl mx-auto leading-relaxed">Subscribe to receive updates on our latest collections and exclusive offers.</p>
-              
-              <div className="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto">
-                <input 
-                  type="email" 
-                  placeholder="Your Email Address" 
-                  className="flex-1 px-8 py-5 bg-white border border-stone-200 rounded-full focus:outline-none focus:ring-2 focus:ring-[#B8860B]/20"
-                />
-                <button className="px-10 py-5 bg-stone-950 text-white rounded-full font-black text-[10px] uppercase tracking-widest hover:bg-[#B8860B] transition-all shadow-xl">
-                  Subscribe
-                </button>
-              </div>
-           </motion.div>
-        </section>
       </main>
 
       <ScrollToTop />

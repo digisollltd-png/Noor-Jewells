@@ -169,7 +169,7 @@ export default function BlogListingPage() {
         <div className="max-w-[1440px] mx-auto px-6 md:px-12 flex flex-col md:flex-row justify-between items-center gap-8">
           <Link href="/" className="luxury-serif text-3xl font-black italic tracking-tighter">nooré</Link>
           <div className="flex gap-12 text-[10px] font-black uppercase tracking-[0.2em] text-stone-400">
-            <Link href="/catalog" className="hover:text-stone-950 transition-colors">The Vault</Link>
+            <Link href="/#catalog" className="hover:text-stone-950 transition-colors">The Vault</Link>
             <Link href="/blog" className="hover:text-stone-950 transition-colors text-stone-950">Chronicles</Link>
             <Link href="/bespoke" className="hover:text-stone-950 transition-colors">Bespoke</Link>
             <Link href="/heritage" className="hover:text-stone-950 transition-colors">Our Legacy</Link>
