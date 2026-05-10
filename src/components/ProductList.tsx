@@ -98,11 +98,7 @@ const ProductList: React.FC<ProductListProps> = ({ products, onAddToCart, onProd
               {product.description}
             </p>
             
-            <div className="flex items-center gap-1 opacity-50 group-hover:opacity-100 transition-opacity">
-              {[1, 2, 3, 4, 5].map((star) => (
-                <div key={star} className="w-1.5 h-1.5 rounded-full bg-[#B8860B]" />
-              ))}
-            </div>
+            {/* Rating removed for cleaner look */}
           </motion.div>
         </motion.div>
       ))}

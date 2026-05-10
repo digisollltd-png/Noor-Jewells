@@ -9,7 +9,6 @@ import {
   ShoppingBag, 
   ShieldCheck, 
   Truck, 
-  Star, 
   Gem, 
   Sparkles, 
   ChevronRight,
@@ -126,18 +125,14 @@ export default function ProductPage() {
                 <span className="px-4 py-1.5 bg-stone-100 text-stone-500 text-[10px] font-bold uppercase tracking-widest rounded-full">
                   {product.category}
                 </span>
-                <div className="flex items-center gap-1.5 text-[#B8860B]">
-                  <Star className="w-4 h-4 fill-current" />
-                  <span className="text-stone-900 text-sm font-bold">4.9 / 5.0</span>
-                </div>
               </div>
 
-              <h1 className="luxury-serif text-5xl md:text-6xl font-bold text-stone-950 leading-tight">
+              <h1 className="luxury-serif text-3xl md:text-4xl font-bold text-stone-950 leading-tight">
                 {product.name}
               </h1>
 
               <div className="flex items-baseline gap-6 pb-6 border-b border-stone-100">
-                <p className="luxury-serif text-5xl font-bold text-stone-950">
+                <p className="luxury-serif text-3xl font-bold text-stone-950">
                   ৳{product.price.toLocaleString()}
                 </p>
                 <div className="flex flex-col">
